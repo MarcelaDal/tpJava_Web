@@ -16,8 +16,8 @@
 
 <link href="style/mdb.min.css" rel="stylesheet">
 
-
-<link href="style/style.css" rel="stylesheet">
+<link href="style/bootstrap.min.css" rel="stylesheet">
+<link href="style/login.css" rel="stylesheet">
 
 <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
 <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -33,42 +33,47 @@
 <body>
 
 	<div class="container">
-	
-	<h3>Login</h3>
-		<form class="form-signin" name="signin" action="start" method="post" method="get">
-			<div class="row">
-				<form class="col-md-12">
-					<div class="row">
-						
-						<div class="input-field col-md-6">
-							<input id="user" type="text" class="form-control" required> 
-							<label for="user">Usuario</label>
-						</div>
+		<div class="card card-container" >
+			<h2 class='login_title text-center'>Login</h2>
+			<hr>
+
+			<form class="form-signin" name="signin" action="start" method="post">
+				<div class="row">
+
+					<div class="input-field">
+						<input name="user" id="inputUser" type="text" class="form-control" required autofocus> 
+						<label for="user">Usuario</label>
 					</div>
-					
-					<div class="row">
-						<div class="input-field col-md-12">
-							<input id="password" type="password" class="form-control" required> 
-							<label for="password">Contraseña</label>
-						</div>
+				</div>
+				<div class="row">
+
+					<div class="input-field">
+						<input name="pass" id="inputPassword" type="Password" class="form-control" required>
+						<label for="password">Contraseña</label>
 					</div>
+				</div>
+				<div class="row">
+
 					<button class="btn btn-lg btn-primary btn-block" type="submit">
-					Iniciar Sesión</button>
-				</form>
-			</div>
-
-
-
-			
+						Iniciar Sesión</button>
+				</div>
+			</form>
+			<!-- /form -->
+		</div>
+		<!-- /card-container -->
+	
 	</div>
 	<!-- /container -->
 
 
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<script src="style/jquery.min.js"></script>
-		<script src="style/mdb.min.js"></script>		
 
-		
+
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="style/jquery.min.js"></script>
+	<script src="style/mdb.min.js"></script>
+	<script src="style/bootstrap.min.js"></script>
+
+
 
 
 </body>

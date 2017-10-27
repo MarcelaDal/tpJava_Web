@@ -68,7 +68,7 @@ public class Start extends HttpServlet {
 			
 			
 			
-			request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/home.jsp").forward(request, response);
 			//response.getWriter().append(user).append(" ").append(pass);
 			
 			

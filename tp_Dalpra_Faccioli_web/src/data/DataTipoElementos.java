@@ -17,12 +17,12 @@ public class DataTipoElementos {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"insert into tipos_elementos(nombre, cant_max_reservas_pendientea) values (?,?)",
+					"insert into tipos_elementos(nombre, cant_max_reservas_pendientes, habilitado) values (?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, te.getNombre());
 			stmt.setInt(2, te.getCanMaxResPend());
-			
+			stmt.setBoolean(3, true);
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){

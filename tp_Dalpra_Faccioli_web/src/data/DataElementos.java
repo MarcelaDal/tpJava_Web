@@ -18,11 +18,12 @@ public class DataElementos{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"insert into elementos (nombre, id_tipo_elemento) values (?,?)",
+					"insert into elementos (nombre, id_tipo_elemento, habilitado) values (?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, ele.getNombre());
 			stmt.setInt(2, ele.getTipo().getId());
+			stmt.setBoolean(3, true);
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){

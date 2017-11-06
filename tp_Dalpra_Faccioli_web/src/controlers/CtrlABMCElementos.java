@@ -1,5 +1,6 @@
 package controlers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import data.DataTipoElementos;
@@ -7,10 +8,26 @@ import data.DataElementos;
 import entity.TipoElementos;
 import entity.Elemento;
 
-public class CtrlABMCElementos {
-
+public class CtrlABMCElementos implements Serializable{
 	private DataElementos dataElementos;
 	private DataTipoElementos dataTipoEle;
+	
+	
+	public DataElementos getDataElementos() {
+		return dataElementos;
+	}
+
+	public void setDataElementos(DataElementos dataElementos) {
+		this.dataElementos = dataElementos;
+	}
+
+	public DataTipoElementos getDataTipoEle() {
+		return dataTipoEle;
+	}
+
+	public void setDataTipoEle(DataTipoElementos dataTipoEle) {
+		this.dataTipoEle = dataTipoEle;
+	}
 	
 	
 	public CtrlABMCElementos(){

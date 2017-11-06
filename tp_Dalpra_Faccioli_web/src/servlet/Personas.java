@@ -35,13 +35,7 @@ public class Personas extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		try {
-			CtrlABMCClientes ctrl= new CtrlABMCClientes();
-			request.setAttribute("listaPersonas", ctrl.getAll());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		request.getRequestDispatcher("WEB-INF/menuPersonas.jsp").forward(request, response);
 		
 		//response.getWriter().append("Served at: ").append(request.getContextPath());

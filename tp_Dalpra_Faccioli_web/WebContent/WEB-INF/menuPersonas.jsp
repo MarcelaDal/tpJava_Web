@@ -7,7 +7,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Menu Personas</title>
 </head>
 <link href="style/mdb.min.css" rel="stylesheet">
 
@@ -16,7 +16,7 @@
 <body>
 	<div class="row">
 	<div class="col-md-2"></div>
-    <form class="col-md-6" name="personas" method="post">
+    <form class="col-md-6" action="personas" method="post">
       <div class="row">
         <div class="input-field col-md-12">
           <input disabled id="id" type="text" >

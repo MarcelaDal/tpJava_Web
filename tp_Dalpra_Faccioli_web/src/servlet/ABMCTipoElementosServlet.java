@@ -110,9 +110,14 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		String id= request.getParameter("idInput");		
 		String canMaxResPend= request.getParameter("cantRes");
 		String habilitado= request.getParameter("habilitado");
-		//TODO que el habilitado lo setee desde acá
+		//TODO que el habilitado lo setee desde acá no desde la BD
 		te.setNombre(nombre);
-		te.setHabilitado(Boolean.parseBoolean(habilitado));
+		if(habilitado==null){
+			te.setHabilitado(false);
+		}else {
+			te.setHabilitado(true);
+		}
+		
 		if(id!=null){
 			te.setId(Integer.parseInt(id));
 		}

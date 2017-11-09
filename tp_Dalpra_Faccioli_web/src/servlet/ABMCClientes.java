@@ -96,11 +96,18 @@ public class ABMCClientes extends HttpServlet {
  		String dni= request.getParameter("dniInput");
  		Categoria cat= new Categoria();
  		cat.setId(Integer.parseInt(request.getParameter("categoria")));
+ 		String habilitado= request.getParameter("habilitado");
  		per.setNombre(nombre);
  		if(id!=null){
  			per.setId(Integer.parseInt(id));
  		}
- 		String habilitado= request.getParameter("habilitado");
+ 		if(habilitado==null){
+			per.setHabilitado(false);
+		}else {
+			per.setHabilitado(true);
+		}
+		
+ 		
 		per.setHabilitado(Boolean.parseBoolean(habilitado));
  		per.setApellido(apellido);
  		per.setDni(dni);

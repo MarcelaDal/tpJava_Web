@@ -23,16 +23,19 @@
 <link href="style/home.css" rel="stylesheet">
 
 <body>
+<div class="row">
+<div class="col-md-2"></div>
 <form class="col-md-6" name="myForm" action="" method="post">
       <div class="row">
         <div class="input-field col-md-6">
-          <input disabled id="idInput" name="idInput" type="text" >
+          <input disabled id="idInput" name="idInput" type="text" <%=request.getAttribute("idInput")  %>
+           >
           <label for="id">Id</label>
         </div>       
       </div>      
       <div class="row">
         <div class="input-field col-md-6">
-          <input name="nameInput" id="nameInput" type="text" class="validate">
+          <input name="nameInput" id="nameInput" type="text" class="validate" <%=request.getAttribute("nameInput")  %>>
           <label for="nameInput">Nombre</label>
         </div>
       </div>
@@ -58,7 +61,7 @@
         <button class="btn btn-warning waves-effect waves-light " onclick="javascript: submitForm('elemento/modificacion')">Editar</button>
         <button class="btn btn-danger waves-effect waves-light " onclick="javascript: submitForm('elemento/baja')">Eliminar</button>
     </form>
-    
+ </div>   
     
  
 </body>

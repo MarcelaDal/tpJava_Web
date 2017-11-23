@@ -25,18 +25,10 @@ import javax.servlet.RequestDispatcher;
          super();
      }
  
- 	/**
- 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
- 	 */
- 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
- 		// TODO Auto-generated method stub
- 		response.getWriter().append("get");
- 	}
- 
+ 	 
  	
  	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
- 		// TODO Auto-generated method stub
- 		//doGet(request, response);
+ 		
  		switch (request.getPathInfo()) {
  		case "/alta":
  			this.alta(request,response);
@@ -70,9 +62,8 @@ import javax.servlet.RequestDispatcher;
  		CtrlABMCElementos ctrl= new CtrlABMCElementos();
  		Elemento e= new Elemento();
  		e=ctrl.getByNombre(nombre);
- 		request.setAttribute("elemento", e);
- 		//TODO 
- 		
+ 		request.setAttribute("nameInput", e.getNombre());
+ 		request.setAttribute("idInput", e.getId());
  		
  	}
  
@@ -102,22 +93,24 @@ import javax.servlet.RequestDispatcher;
 
  	}
  
- 	private void alta(HttpServletRequest request, HttpServletResponse response) throws IOException {
+ 	private void alta(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
  		Elemento ele= this.mapearDeForm(request);
  		try {
  			ctrl.add(ele);
  			System.out.println("Nuevo Elemento agregado con éxito.");
- 			PrintWriter out = response.getWriter(); 
- 			out.println("<p>El elemento fue agregado con éxito. </p>");
- 					out.close();
+ 			//PrintWriter out = response.getWriter(); 
+ 			//out.println("<p>El elemento fue agregado con éxito. </p>");
+ 			//		out.close();
  			
  		} catch (Exception e) {
  			e.printStackTrace();
  			System.out.println("Error al agregar el Elemento.");
- 			PrintWriter out = response.getWriter(); 
- 			out.println("<p>Error al querer agregar elemento </p>");
- 					out.close();
+ 			//PrintWriter out = response.getWriter(); 
+ 			//out.println("<p>Error al querer agregar elemento </p>");
+ 			//		out.close();
  		}
+ 		RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/menuElementos.jsp");
+ 		dispatcher.forward(request, response);
  		
  	}
  

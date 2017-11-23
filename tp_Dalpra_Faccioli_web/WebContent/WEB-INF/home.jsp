@@ -38,7 +38,7 @@
 	    </div>
 	    <div class="row"> 
 	   		<div class="col-md-2 col-sm-1"></div>  
-	        <form  name="elementos" action="elementos" >			
+	        <form  name="elementos" action="buscarelementos" >			
 		        <div class="col-md-4 col-sm-5" >
 		        <button class="btn btn-success btn-lg btn-block"><h4 style="padding:30px; margin:0px;">Elementos</h4></button> 
 		        </div>         

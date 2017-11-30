@@ -33,8 +33,8 @@ public class Persona implements Serializable {
 		return contrasenia;
 	}
 
-	public void setContrasenia(String contraseña) {
-		this.contrasenia = contraseña;
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 
 	public int getId(){

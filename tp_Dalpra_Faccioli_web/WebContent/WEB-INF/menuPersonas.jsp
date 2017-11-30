@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@page import="java.util.ArrayList"%>
-<%@page import="entity.Persona"%>
+    <%@page import="entity.Persona"%>
 <%@page import="entity.Categoria"%>
+<%@ page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -39,19 +40,19 @@
       </div>
       <div class="row">
         <div class="input-field col-md-12">
-          <input id="dniInput" name="dniInput" type="number" class="validate">
+          <input id="dniInput" name="dniInput" value="<%= session.getAttribute("dniPersona") %>" type="number" class="validate">
           <label for="dniInput">DNI</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col-md-12">
-          <input id="nameInput"  name="nameInput" type="text" class="validate">
+          <input id="nameInput"  name="nameInput" value="<%= session.getAttribute("nombrePersona") %>" type="text" class="validate">
           <label for="nameInput">Nombre</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col-md-12">
-          <input id="lastnameInput" name="lastnameInput" type="text" class="validate">
+          <input id="lastnameInput" name="lastnameInput" value="<%= session.getAttribute("apellidoPersona") %>"  type="text" class="validate">
           <label for="lastnameInput">Apellido</label>
         </div>
         </div>

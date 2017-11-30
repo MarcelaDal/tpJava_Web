@@ -2,13 +2,11 @@ package servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
 
 import controlers.CtrlABMCTipoElementos;
 import entity.TipoElementos;
@@ -73,7 +71,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try{
 			ctrl.update(this.mapearDeForm(request));
-			System.out.println("El tipo de elemento fue modificado con éxito.");
+			System.out.println("El tipo de elemento fue modificado con ï¿½xito.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("No se puedo modificar el tipo de elemento.");			
@@ -84,7 +82,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try {
 			ctrl.delete(this.mapearDeForm(request));
-			System.out.println("El tipo de elemento fue eliminado con éxito.");
+			System.out.println("El tipo de elemento fue eliminado con ï¿½xito.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("No se puedo eliminar el tipo de Elemento.");
@@ -95,7 +93,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		TipoElementos te= this.mapearDeForm(request);
 		try {
 			ctrl.add(te);
-			System.out.println("Nuevo Tipo de Elemento agregado con éxito.");
+			System.out.println("Nuevo Tipo de Elemento agregado con ï¿½xito.");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -110,7 +108,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		String id= request.getParameter("idInput");		
 		String canMaxResPend= request.getParameter("cantRes");
 		String habilitado= request.getParameter("habilitado");
-		//TODO que el habilitado lo setee desde acá no desde la BD
+		//TODO que el habilitado lo setee desde acï¿½ no desde la BD
 		te.setNombre(nombre);
 		if(habilitado==null){
 			te.setHabilitado(false);

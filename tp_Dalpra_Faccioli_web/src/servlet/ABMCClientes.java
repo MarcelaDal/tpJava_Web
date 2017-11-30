@@ -8,11 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import controlers.CtrlABMCClientes;
-import controlers.CtrlABMCElementos;
 import entity.Categoria;
-import entity.Elemento;
 import entity.Persona;
 
 /**
@@ -120,9 +119,9 @@ public class ABMCClientes extends HttpServlet {
  		Persona per= this.mapearDeForm(request);
  		try {
  			ctrl.add(per);
- 			System.out.println("Nuevo cliente agregado con éxito.");
+ 			System.out.println("Nuevo cliente agregado con ï¿½xito.");
  			PrintWriter out = response.getWriter(); 
- 			out.println("<p>El cliente fue agregado con éxito. </p>");
+ 			out.println("<p>El cliente fue agregado con ï¿½xito. </p>");
  					out.close();
  			
  		} catch (Exception e) {
@@ -138,7 +137,7 @@ public class ABMCClientes extends HttpServlet {
  	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
  		try {
  			ctrl.delete(this.mapearDeForm(request));
- 			System.out.println("El cliente fue eliminado con éxito.");
+ 			System.out.println("El cliente fue eliminado con ï¿½xito.");
  		} catch (Exception e) {
  			e.printStackTrace();
  			System.out.println("No se puedo eliminar el cliente.");
@@ -151,7 +150,11 @@ public class ABMCClientes extends HttpServlet {
  		CtrlABMCClientes ctrl= new CtrlABMCClientes();
  		Persona per= new Persona();
  		per= ctrl.getByDni(dni);
- 		request.setAttribute("persona", per);
+ 		HttpSession session = request.getSession();
+ 		session.setAttribute("dniPersona", per.getDni());
+ 		session.setAttribute("nombrePersona", per.getNombre());
+ 		session.setAttribute("apellidoPersona", per.getApellido());
+ 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/personas?");
  		//TODO 
  		
  		
@@ -160,7 +163,7 @@ public class ABMCClientes extends HttpServlet {
  	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
  		try{
  			ctrl.update(this.mapearDeForm(request));
- 			System.out.println("El cliente fue modificado con éxito.");
+ 			System.out.println("El cliente fue modificado con ï¿½xito.");
  		} catch (Exception e) {
  			e.printStackTrace();
  			System.out.println("No se puedo modificar el Cliente.");			

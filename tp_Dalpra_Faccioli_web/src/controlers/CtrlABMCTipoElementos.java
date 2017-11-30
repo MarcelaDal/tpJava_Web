@@ -2,11 +2,7 @@ package controlers;
 
 import java.util.ArrayList;
 
-import data.DataCategoria;
-import data.DataPersona;
 import data.DataTipoElementos;
-import entity.Categoria;
-import entity.Persona;
 import entity.TipoElementos;
 
 public class CtrlABMCTipoElementos {

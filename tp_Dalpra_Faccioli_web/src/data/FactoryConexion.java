@@ -7,11 +7,11 @@ import util.AppDataException;
 public class FactoryConexion {
 	
 	private String driver="com.mysql.jdbc.Driver";
-	private String host="localhost";
+	private String host="vps-1039890-x.dattaweb.com";
 	private String port="3306";
-	private String user="root";
-	private String password="ernesadmadp";
-	private String db="dbMarceSele";
+	private String user="marcesele";
+	private String password="marcesele123";
+	private String db="MarceSele";
 	
 	private static FactoryConexion instancia;
 		

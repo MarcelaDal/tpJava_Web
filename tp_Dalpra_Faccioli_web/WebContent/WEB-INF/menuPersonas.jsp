@@ -66,7 +66,7 @@
 			for(Categoria c: listaCategorias){
 		%>
         	<option value="<%=c.getId()%>" >
-        		<%=c.getDescripcion()%>
+        	    <%=c.getDescripcion()%>
         	</option>
         	<%} %>
         </select>
@@ -75,6 +75,7 @@
         <div class="checkbox">
 	    <label>
 	      <input type="checkbox" name="habilitado">Habilitado</label>
+	      
 	  </div>
    <button class="btn btn-success waves-effect waves-light " onclick="javascript: submitForm('persona/consulta')">Buscar</button>
         <button class="btn btn-primary waves-effect waves-light " onclick="javascript: submitForm('persona/alta')">Agregar</button>

@@ -1,12 +1,14 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import controlers.CtrlABMCTipoElementos;
 import entity.TipoElementos;
@@ -62,8 +64,10 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		String nombre=request.getParameter("nameInput");
 		TipoElementos te= new TipoElementos();
 		te=ctrl.getByNombre(nombre);
-		request.setAttribute("elemento", te);
-		//TODO 
+		HttpSession session= request.getSession();
+		session.setAttribute("nombreElemento", te.getNombre());
+		session.setAttribute("cantRes", te.getCanMaxResPend());
+		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElemento?");
 		
 		
 	}
@@ -82,7 +86,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try {
 			ctrl.delete(this.mapearDeForm(request));
-			System.out.println("El tipo de elemento fue eliminado con �xito.");
+			System.out.println("El tipo de elemento fue eliminado con exito.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("No se puedo eliminar el tipo de Elemento.");
@@ -93,11 +97,14 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		TipoElementos te= this.mapearDeForm(request);
 		try {
 			ctrl.add(te);
-			System.out.println("Nuevo Tipo de Elemento agregado con �xito.");
-			
+			System.out.println("Nuevo Tipo de Elemento agregado con exito.");
+			PrintWriter out = response.getWriter(); 
+ 			out.println("<p>El elemento fue agregado con exito. </p>");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error al agregar el Tipo de Elemento.");
+			PrintWriter out = response.getWriter(); 
+ 			out.println("<p>Error al agregar el Tipo de Elemento. </p>");
 		}
 		
 	}

@@ -154,6 +154,8 @@ public class ABMCClientes extends HttpServlet {
  		session.setAttribute("dniPersona", per.getDni());
  		session.setAttribute("nombrePersona", per.getNombre());
  		session.setAttribute("apellidoPersona", per.getApellido());
+ 		session.setAttribute("categoriaPersona", per.getCategoria());
+ 		session.setAttribute("habilitado", per.isHabilitado());
  		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/personas?");
  		//TODO 
  		

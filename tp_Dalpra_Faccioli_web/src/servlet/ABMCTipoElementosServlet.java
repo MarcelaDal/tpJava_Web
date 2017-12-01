@@ -25,7 +25,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("get");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	
@@ -66,8 +66,8 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		te=ctrl.getByNombre(nombre);
 		HttpSession session= request.getSession();
 		session.setAttribute("nombreElemento", te.getNombre());
-		session.setAttribute("cantRes", te.getCanMaxResPend());
-		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElemento?");
+		session.setAttribute("cantReservas", te.getCanMaxResPend());
+		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 		
 		
 	}

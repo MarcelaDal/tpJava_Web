@@ -67,6 +67,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		HttpSession session= request.getSession();
 		session.setAttribute("nombreElemento", te.getNombre());
 		session.setAttribute("cantReservas", te.getCanMaxResPend());
+		session.setAttribute("habilitado", te.isHabilitado());
 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 		
 		

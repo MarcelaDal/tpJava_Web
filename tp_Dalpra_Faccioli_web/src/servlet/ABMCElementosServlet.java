@@ -65,6 +65,7 @@ import entity.TipoElementos;
 		session.setAttribute("nombreElemento", e.getNombre());
 		session.setAttribute("id", e.getId());
 		session.setAttribute("tipoElemento", e.getTipo().getNombre());
+		session.setAttribute("habilitado", e.isHabilitado());
 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/elementos?");
  	}
  
@@ -83,9 +84,9 @@ import entity.TipoElementos;
  		Elemento ele= this.mapearDeForm(request);
  		try {
  			ctrl.delete(ele);
- 			System.out.println("El elemento fue eliminado con ï¿½xito.");
+ 			System.out.println("El elemento fue eliminado con éxito.");
  			PrintWriter out = response.getWriter(); 
- 			out.println("El elemento fue eliminado con ï¿½xito. ");
+ 			out.println("El elemento fue eliminado con éxito. ");
  					out.close();
  		} catch (Exception e) {
  			e.printStackTrace();
@@ -98,7 +99,7 @@ import entity.TipoElementos;
  		Elemento ele= this.mapearDeForm(request);
  		try {
  			ctrl.add(ele);
- 			System.out.println("Nuevo Elemento agregado con ï¿½xito.");
+ 			System.out.println("Nuevo Elemento agregado con éxito.");
  			//PrintWriter out = response.getWriter(); 
  			//out.println("<p>El elemento fue agregado con ï¿½xito. </p>");
  			//		out.close();

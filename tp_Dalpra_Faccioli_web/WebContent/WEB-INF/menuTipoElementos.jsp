@@ -41,8 +41,9 @@
         </div>
       </div>
       <div class="checkbox">
-	    <label>
-	      <input type="checkbox" name="habilitado">Habilitado</label>
+	     <label>
+	      <input type="checkbox" name="habilitado" <%if((Boolean)session.getAttribute("habilitado")==true){%> checked="true" <% } %>>Habilitado</label>
+	      
 	  </div>
      
       

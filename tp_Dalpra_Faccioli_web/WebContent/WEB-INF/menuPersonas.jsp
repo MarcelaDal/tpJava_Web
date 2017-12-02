@@ -74,7 +74,7 @@
        </div>
         <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado">Habilitado</label>
+	      <input type="checkbox" name="habilitado" <%if((Boolean)session.getAttribute("habilitado")==true){%> checked="true" <% } %>>Habilitado</label>
 	      
 	  </div>
    <button class="btn btn-success waves-effect waves-light " onclick="javascript: submitForm('persona/consulta')">Buscar</button>

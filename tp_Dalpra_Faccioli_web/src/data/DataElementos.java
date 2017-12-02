@@ -18,7 +18,7 @@ public class DataElementos{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"insert into elementos (nombre, id_tipo_elemento, habilitado) values (?,?,?)",
+					"insert into elementos (nombre, id_tipo_elemento, habilitado) values (?,?, ?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, ele.getNombre());
@@ -50,7 +50,7 @@ public class DataElementos{
 		ResultSet rs=null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select e.nombre, e.id, id_tipo_elemento, te.nombre from elementos e inner join tipos_elementos te on e.id_tipo_elemento=te.id where e.nombre like ?");
+					"select e.nombre, e.id, e.id_tipo_elemento, te.nombre, e.habilitado from elementos e inner join tipos_elementos te on e.id_tipo_elemento=te.id where e.nombre like ?");
 			stmt.setString(1, '%'+ele.getNombre()+'%');
 			rs=stmt.executeQuery();
 			if(rs!=null && rs.next()){
@@ -58,8 +58,9 @@ public class DataElementos{
 					el.setTipo(new TipoElementos());
 					el.setId(rs.getInt("e.id"));
 					el.setNombre(rs.getString("e.nombre"));
-					el.getTipo().setId(rs.getInt("id_tipo_elemento"));
+					el.getTipo().setId(rs.getInt("e.id_tipo_elemento"));
 					el.getTipo().setNombre(rs.getString("te.nombre"));
+					el.setHabilitado(rs.getBoolean("e.habilitado"));
 			}
 			
 		} catch (Exception ex) {
@@ -95,9 +96,7 @@ public class DataElementos{
 					ele.setHabilitado(rs.getBoolean("e.habilitado"));
 					ele.getTipo().setId(rs.getInt("e.id_tipo_elemento"));
 					ele.getTipo().setNombre(rs.getString("te.nombre"));
-					ele.getTipo().setCanMaxResPend(rs.getInt("cant_max_reservas_pendientes"));
-					ele.getTipo().setHabilitado(rs.getBoolean("te.habilitado"));
-					
+					ele.getTipo().setCanMaxResPend(rs.getInt("cant_max_reservas_pendientes"));				
 					elementos.add(ele);
 				}
 			}
@@ -129,7 +128,7 @@ public class DataElementos{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"update elementos set habilitado=0 where id=?"
+					"update elementos set habilitado=false where id=?"
 					);
 			stmt.setInt(1, ele.getId());
 			stmt.executeUpdate();
@@ -154,11 +153,12 @@ public class DataElementos{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"update elementos set nombre=?, habilitado=? where id=?"
+					"update elementos set nombre=?, habilitado=? , id_tipo_elemento=? where id=?"
 					);
 			stmt.setString(1, ele.getNombre());
 			stmt.setBoolean(2, ele.isHabilitado());
-			stmt.setInt(3, ele.getId());
+			stmt.setInt(3, ele.getTipo().getId());
+			stmt.setInt(4, ele.getId());
 			stmt.executeUpdate();
 						
 			
@@ -194,11 +194,7 @@ public ArrayList<Elemento> getByTipoElemento(TipoElementos te) throws Exception{
 					ele.setId(rs.getInt("e.id"));
 					ele.setNombre(rs.getString("e.nombre"));
 					ele.setHabilitado(rs.getBoolean("e.habilitado"));
-					ele.getTipo().setId(rs.getInt("e.id_tipo_elemento"));
-					ele.getTipo().setNombre(rs.getString("te.nombre"));
-					ele.getTipo().setCanMaxResPend(rs.getInt("cant_max_reservas_pendientes"));
-					ele.getTipo().setHabilitado(rs.getBoolean("te.habilitado"));
-					
+					ele.getTipo().setNombre(rs.getString("te.nombre"));					
 					elementos.add(ele);
 				}
 			}

@@ -42,8 +42,6 @@ public class DataTipoElementos {
 	}
 	
 	
-		
-	
 	public ArrayList<TipoElementos> getAll() throws Exception{
 		
 		Statement stmt=null;
@@ -59,7 +57,6 @@ public class DataTipoElementos {
 					te.setNombre(rs.getString("nombre"));
 					te.setCanMaxResPend(rs.getInt("cant_max_reservas_pendientes"));
 					te.setHabilitado(rs.getBoolean("habilitado"));
-					
 					tipoelementos.add(te);
 				}
 			}
@@ -91,7 +88,7 @@ public class DataTipoElementos {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"update tipos_elementos set habilitado=0 where id=?"
+					"update tipos_elementos set habilitado=false where id=?"
 					);
 			stmt.setInt(1, te.getId());
 			stmt.executeUpdate();

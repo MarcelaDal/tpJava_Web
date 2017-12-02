@@ -95,7 +95,7 @@ public class DataReserva{
 		try {
 			stmt = FactoryConexion.getInstancia()
 					.getConn().createStatement();
-			rs = stmt.executeQuery("select * from reservas r inner join persona p on r.id_persona=p.id inner join elementos e on r.id_elemento=e.id where (r.estado=1)  order by fecha, hora");
+			rs = stmt.executeQuery("select * from reservas r inner join persona p on r.id_persona=p.id inner join elementos e on r.id_elemento=e.id where (r.estado=1) and (r.fecha>CURDATE()) order by fecha, hora");
 			if(rs!=null){
 				while(rs.next()){
 					Reserva r=new Reserva();
@@ -211,7 +211,7 @@ public class DataReserva{
 		return reservas;
 		
 	}
-	
+}
 	/*
 public String countReservasByUsuario(Reserva r, Persona per) throws Exception{
 		
@@ -254,4 +254,3 @@ public String countReservasByUsuario(Reserva r, Persona per) throws Exception{
 
 		
 	
-}

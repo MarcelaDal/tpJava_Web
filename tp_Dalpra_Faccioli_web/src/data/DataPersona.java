@@ -94,8 +94,9 @@ public class DataPersona{
 		ResultSet rs=null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select p.id, nombre, apellido, dni, habilitado, id_categoria, descripcion from persona p inner join categorias_personas c on p.id_categoria=c.id where dni=?");
-			stmt.setString(1, per.getDni());
+					"select p.id, p.nombre, p.apellido, p.dni, p.habilitado, p.id_categoria, cp.descripcion from persona p left join categorias_personas cp on p.id_categoria=cp.id where p.dni like ?");
+			stmt.setString(1,per.getDni());
+			
 			rs=stmt.executeQuery();
 			if(rs!=null && rs.next()){
 					p=new Persona();
@@ -107,6 +108,7 @@ public class DataPersona{
 					p.setHabilitado(rs.getBoolean("habilitado"));
 					p.getCategoria().setId(rs.getInt("id_categoria"));
 					p.getCategoria().setDescripcion(rs.getString("descripcion"));
+					
 			}
 			
 		} catch (Exception e) {
@@ -177,9 +179,10 @@ public class DataPersona{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"update persona set habilitado=0 where id=?"
+					"update persona set habilitado=? where id=?"
 					);
-			stmt.setInt(1, p.getId());
+			stmt.setBoolean(1, false);
+			stmt.setInt(2, p.getId());
 			stmt.executeUpdate();
 						
 			
@@ -210,8 +213,7 @@ public class DataPersona{
 			stmt.setInt(4, p.getCategoria().getId());
 			stmt.setBoolean(5, p.isHabilitado());
 			stmt.setInt(6, p.getId());
-			stmt.executeUpdate();
-						
+			stmt.executeUpdate();						
 			
 		} catch (SQLException | AppDataException e) {
 			throw e;

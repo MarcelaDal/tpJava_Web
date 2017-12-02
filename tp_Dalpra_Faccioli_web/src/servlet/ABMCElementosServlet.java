@@ -4,17 +4,17 @@ package servlet;
 import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
- import javax.servlet.ServletException;
- import javax.servlet.annotation.WebServlet;
- import javax.servlet.http.HttpServlet;
- import javax.servlet.http.HttpServletRequest;
- import javax.servlet.http.HttpServletResponse;
- import javax.swing.JOptionPane;
- 
- import controlers.CtrlABMCElementos;
- import controlers.CtrlABMCTipoElementos;
- import entity.Elemento;
- import entity.TipoElementos;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import controlers.CtrlABMCElementos;
+import controlers.CtrlABMCTipoElementos;
+import entity.Elemento;
+import entity.TipoElementos;
  
  @WebServlet({"/elemento/*", "/elementos/*", "/Elemento/*", "/Elementos/*"})
  public class ABMCElementosServlet extends HttpServlet {
@@ -59,18 +59,19 @@ import javax.servlet.RequestDispatcher;
  	private void consulta(HttpServletRequest request, HttpServletResponse response) throws Exception {
  		//response.getWriter().append("Consulta, requested action: ").append(request.getPathInfo()).append(" through post");
  		String nombre=request.getParameter("nameInput");
- 		CtrlABMCElementos ctrl= new CtrlABMCElementos();
  		Elemento e= new Elemento();
  		e=ctrl.getByNombre(nombre);
- 		request.setAttribute("nameInput", e.getNombre());
- 		request.setAttribute("idInput", e.getId());
- 		
+		HttpSession session= request.getSession();
+		session.setAttribute("nombreElemento", e.getNombre());
+		session.setAttribute("id", e.getId());
+		session.setAttribute("tipoElemento", e.getTipo().getNombre());
+		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/elementos?");
  	}
  
  	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
  		try{
  			ctrl.update(this.mapearDeForm(request));
- 			System.out.println("El elemento fue modificado con éxito.");
+ 			System.out.println("El elemento fue modificado con ï¿½xito.");
  		} catch (Exception e) {
  			e.printStackTrace();
  			System.out.println("No se puedo modificar el Elemento.");			
@@ -82,9 +83,9 @@ import javax.servlet.RequestDispatcher;
  		Elemento ele= this.mapearDeForm(request);
  		try {
  			ctrl.delete(ele);
- 			System.out.println("El elemento fue eliminado con éxito.");
+ 			System.out.println("El elemento fue eliminado con ï¿½xito.");
  			PrintWriter out = response.getWriter(); 
- 			out.println("El elemento fue eliminado con éxito. ");
+ 			out.println("El elemento fue eliminado con ï¿½xito. ");
  					out.close();
  		} catch (Exception e) {
  			e.printStackTrace();
@@ -97,9 +98,9 @@ import javax.servlet.RequestDispatcher;
  		Elemento ele= this.mapearDeForm(request);
  		try {
  			ctrl.add(ele);
- 			System.out.println("Nuevo Elemento agregado con éxito.");
+ 			System.out.println("Nuevo Elemento agregado con ï¿½xito.");
  			//PrintWriter out = response.getWriter(); 
- 			//out.println("<p>El elemento fue agregado con éxito. </p>");
+ 			//out.println("<p>El elemento fue agregado con ï¿½xito. </p>");
  			//		out.close();
  			
  		} catch (Exception e) {

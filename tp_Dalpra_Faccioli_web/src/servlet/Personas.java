@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,12 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controlers.CtrlABMCClientes;
-import controlers.CtrlABMCElementos;
-import controlers.CtrlABMCReservas;
-import entity.Categoria;
-import entity.Elemento;
-import entity.Persona;
-import entity.Reserva;
 
 /**
  * Servlet implementation class Personas

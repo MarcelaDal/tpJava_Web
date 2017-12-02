@@ -28,14 +28,20 @@
 <form class="col-md-6" name="myForm" action="" method="post">
       <div class="row">
         <div class="input-field col-md-6">
-          <input disabled id="idInput" name="idInput" type="text" <%=request.getAttribute("idInput")  %>
-           >
+          <input disabled id="idInput" name="idInput" type="text" value=" <%=session.getAttribute("id")  %> ">
           <label for="id">Id</label>
         </div>       
       </div>      
       <div class="row">
         <div class="input-field col-md-6">
-          <input name="nameInput" id="nameInput" type="text" class="validate" <%=request.getAttribute("nameInput")  %>>
+        	<% if(session.getAttribute("nombreElemento")!=null){%>
+        	   <input name="nameInput" id="nameInput" type="text" class="validate" value="<%=session.getAttribute("nombreElemento")%>" >
+        	
+        	<%} else { %>
+        	    <input name="nameInput" id="nameInput" type="text" class="validate">
+        	
+        	<%} %>
+          
           <label for="nameInput">Nombre</label>
         </div>
       </div>
@@ -43,15 +49,23 @@
        <div class="row">
         <div class="col-md-6">        
        	<select class="browser-default" name="tipoElemento">
-       	<option value="" disabled selected>Seleccione un Tipo de Elemento</option>
-       	<%
-			ArrayList<TipoElementos> listaTipoElementos= (ArrayList<TipoElementos>)request.getAttribute("listaTipoElementos");
+       	<% if(session.getAttribute("nombreElemento")==null){%>
+       		<option value="" disabled selected>Seleccione un Tipo de Elemento</option>
+       	<%} else { %>
+       		<option value="<%= session.getAttribute("tipoElemento") %>" disabled selected>
+       		<%=session.getAttribute("tipoElemento")%>
+       		</option>
+       	<%}%>
+       
+       	<% 
+       		ArrayList<TipoElementos> listaTipoElementos= (ArrayList<TipoElementos>)request.getAttribute("listaTipoElementos");
 			for(TipoElementos te: listaTipoElementos){
+       	
 		%>
         	<option value="<%=te.getNombre()%>">
         		<%=te.getNombre()%>
         	</option>
-        	<%} %>
+        	<%}%>
         </select>
         </div>
        </div>

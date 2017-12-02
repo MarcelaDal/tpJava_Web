@@ -1,14 +1,14 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
+import javax.servlet.http.HttpSession;
 
 import controlers.CtrlABMCTipoElementos;
 import entity.TipoElementos;
@@ -25,7 +25,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("get");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	
@@ -64,8 +64,10 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		String nombre=request.getParameter("nameInput");
 		TipoElementos te= new TipoElementos();
 		te=ctrl.getByNombre(nombre);
-		request.setAttribute("elemento", te);
-		//TODO 
+		HttpSession session= request.getSession();
+		session.setAttribute("nombreElemento", te.getNombre());
+		session.setAttribute("cantReservas", te.getCanMaxResPend());
+		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 		
 		
 	}
@@ -73,7 +75,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try{
 			ctrl.update(this.mapearDeForm(request));
-			System.out.println("El tipo de elemento fue modificado con éxito.");
+			System.out.println("El tipo de elemento fue modificado con ï¿½xito.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("No se puedo modificar el tipo de elemento.");			
@@ -84,7 +86,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try {
 			ctrl.delete(this.mapearDeForm(request));
-			System.out.println("El tipo de elemento fue eliminado con éxito.");
+			System.out.println("El tipo de elemento fue eliminado con exito.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("No se puedo eliminar el tipo de Elemento.");
@@ -95,11 +97,14 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		TipoElementos te= this.mapearDeForm(request);
 		try {
 			ctrl.add(te);
-			System.out.println("Nuevo Tipo de Elemento agregado con éxito.");
-			
+			System.out.println("Nuevo Tipo de Elemento agregado con exito.");
+			PrintWriter out = response.getWriter(); 
+ 			out.println("<p>El elemento fue agregado con exito. </p>");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error al agregar el Tipo de Elemento.");
+			PrintWriter out = response.getWriter(); 
+ 			out.println("<p>Error al agregar el Tipo de Elemento. </p>");
 		}
 		
 	}
@@ -110,7 +115,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		String id= request.getParameter("idInput");		
 		String canMaxResPend= request.getParameter("cantRes");
 		String habilitado= request.getParameter("habilitado");
-		//TODO que el habilitado lo setee desde acá no desde la BD
+		//TODO que el habilitado lo setee desde acï¿½ no desde la BD
 		te.setNombre(nombre);
 		if(habilitado==null){
 			te.setHabilitado(false);

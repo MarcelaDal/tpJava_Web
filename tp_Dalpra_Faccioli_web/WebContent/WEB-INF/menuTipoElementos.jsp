@@ -30,13 +30,13 @@
       </div>      
       <div class="row">
         <div class="input-field col-md-6">
-          <input name="nameInput" id="nameInput" type="text" class="validate">
+          <input name="nameInput" id="nameInput" type="text" class="validate" value="<%= session.getAttribute("nombreElemento") %>">
           <label for="nameInput">Nombre</label>
         </div>
       </div>
        <div class="row">
         <div class="input-field col-md-6">
-          <input name="cantRes" id="cantRes" type="number" class="validate">
+          <input name="cantRes" id="cantRes" type="number" class="validate" value="<%= session.getAttribute("cantReservas") %>">
           <label for="cantRes">Cantidad máxima de reservas pendientes</label>
         </div>
       </div>

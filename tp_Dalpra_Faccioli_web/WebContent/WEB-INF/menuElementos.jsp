@@ -49,7 +49,7 @@
        <div class="row">
         <div class="col-md-6">        
        	<select class="browser-default" name="tipoElemento">
-       	<% if(session.getAttribute("nombreElemento")==null){%>
+       	<% if(session.getAttribute("tipoElemento")==null){%>
        		<option value="" disabled selected>Seleccione un Tipo de Elemento</option>
        	<%} else { %>
        		<option value="<%= session.getAttribute("tipoElemento") %>" disabled selected>
@@ -71,9 +71,10 @@
        </div>
        <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado" <%if((Boolean)session.getAttribute("habilitado")==true){%> checked="true" <% } %>>Habilitado</label>
+	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitado")!=null){%> 
+	      checked="<%=session.getAttribute("habilitado")%>" <% } %>>Habilitado</label>
 	      
-	  </div>
+	  </div> 
     <div class="row margin"></div>
     <button class="btn btn-success waves-effect waves-light " onclick="javascript: submitForm('elemento/consulta')">Buscar</button>
         <button class="btn btn-primary waves-effect waves-light " onclick="javascript: submitForm('elemento/alta')">Agregar</button>

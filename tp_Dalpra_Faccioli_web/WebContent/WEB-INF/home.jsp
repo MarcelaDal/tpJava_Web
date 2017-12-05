@@ -24,13 +24,13 @@
 	<div class="row">
 			
 			<div class="col-md-2 col-sm-1"></div>
-			<form  name="personas" action="personas">			
+			<form  name="personas" action="personas"  method="get">			
 		        <div class="col-md-4 col-sm-5" >
 		        <button class="btn btn-info btn-lg btn-block"><h4 style="padding:30px; margin:0px;">Personas</h4></button> 
 		        </div>         
 	        </form>
 	        
-	        <form  name="reservas" action="reservas">			
+	        <form  name="reservas" action="reservas"  method="get">			
 		        <div class="col-md-4 col-sm-5" >
 		        <button class="btn btn-warning btn-lg btn-block"><h4 style="padding:30px; margin:0px;">Reservas</h4></button> 
 		        </div>         
@@ -38,12 +38,12 @@
 	    </div>
 	    <div class="row"> 
 	   		<div class="col-md-2 col-sm-1"></div>  
-	        <form  name="elementos" action="elementos" >			
+	        <form  name="elementos" action="elementos"  method="get" >			
 		        <div class="col-md-4 col-sm-5" >
 		        <button class="btn btn-success btn-lg btn-block"><h4 style="padding:30px; margin:0px;">Elementos</h4></button> 
 		        </div>         
 	        </form>
-	         <form  name="tipoElementos" action="tipoElementos" >			
+	         <form  name="tipoElementos" action="tipoElementos" method="get">			
 		        <div class="col-md-4 col-sm-5" >
 		        <button class="btn btn-danger btn-lg btn-block"><h4 style="padding:30px; margin:0px;">Tipo de Elementos</h4></button> 
 		        </div>         

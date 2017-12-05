@@ -56,12 +56,7 @@
 			        	<%} %>
 		        </select>
 	        </div>
-       </div>
-         <label>
-	      <input type="checkbox" name="habilitado" <%if((Boolean)session.getAttribute("habilitado")==true){%> checked="true" <% } %>>Habilitado</label>
-	      
-	  </div>
-       
+     
        <div class="container">
     <div class="row">
         <div class='col-sm-6'>
@@ -89,8 +84,7 @@
           <label for="detail">Detalles</label>
         </div>
       </div>
-            
-   <button class="btn btn-success waves-effect waves-light " onclick="javascript: submitForm('reserva/consulta')">Buscar</button>
+  
         <button class="btn btn-primary waves-effect waves-light " onclick="javascript: submitForm('reserva/alta')">Agregar</button>
         <button class="btn btn-danger waves-effect waves-light " onclick="javascript: submitForm('reserva/baja')">Eliminar</button>
     </form>

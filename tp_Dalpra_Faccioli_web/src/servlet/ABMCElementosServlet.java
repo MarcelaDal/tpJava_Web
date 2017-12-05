@@ -72,7 +72,7 @@ import entity.TipoElementos;
  	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
  		try{
  			ctrl.update(this.mapearDeForm(request));
- 			System.out.println("El elemento fue modificado con ï¿½xito.");
+ 			System.out.println("El elemento fue modificado con éxito.");
  		} catch (Exception e) {
  			e.printStackTrace();
  			System.out.println("No se puedo modificar el Elemento.");			
@@ -113,7 +113,6 @@ import entity.TipoElementos;
  		}
  		RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/menuElementos.jsp");
  		dispatcher.forward(request, response);
- 		
  	}
  
  	private Elemento mapearDeForm(HttpServletRequest request){
@@ -121,8 +120,10 @@ import entity.TipoElementos;
  		String nombre=request.getParameter("nameInput");
  		String id= request.getParameter("idInput");		
  		String tipoElemento= request.getParameter("tipoElemento");
+ 		String habilitado= request.getParameter("habilitado");
  		
  		ele.setNombre(nombre);
+ 		ele.setHabilitado(Boolean.parseBoolean(habilitado));
  		if(id!=null){
  			ele.setId(Integer.parseInt(id));
  		}

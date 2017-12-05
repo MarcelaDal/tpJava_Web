@@ -40,43 +40,57 @@
       </div>
       <div class="row">
         <div class="input-field col-md-12">
+        <% if(session.getAttribute("dniPersona")!=null){%>
           <input id="dniInput" name="dniInput" value="<%= session.getAttribute("dniPersona") %>" type="number" class="validate">
+        	<%} else { %>
+        	   <input id="dniInput" name="dniInput" type="number" class="validate">        	
+        	<%} %>
           <label for="dniInput">DNI</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col-md-12">
+        <% if(session.getAttribute("nombrePersona")!=null){%>
           <input id="nameInput"  name="nameInput" value="<%= session.getAttribute("nombrePersona") %>" type="text" class="validate">
+        	<%} else { %>
+        	    <input name="nameInput" id="nameInput" type="text" class="validate">
+        	<%} %>
           <label for="nameInput">Nombre</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col-md-12">
+        <% if(session.getAttribute("apellidoPersona")!=null){%>
           <input id="lastnameInput" name="lastnameInput" value="<%= session.getAttribute("apellidoPersona") %>"  type="text" class="validate">
+        	<%} else { %>
+        	    <input name="lastnameInput" id="lastnameInput" type="text" class="validate">
+        	<%} %>
           <label for="lastnameInput">Apellido</label>
         </div>
         </div>
-        
         <div class="row">
         <div class="col-md-6">        
        	<select class="browser-default" name="categoria">
-       	<option value="" disabled selected>Seleccione una Categoría</option>
-       	<%
-			ArrayList<Categoria> listaCategorias= (ArrayList<Categoria>)request.getAttribute("listaCategorias");
-			for(Categoria c: listaCategorias){
+       	<% if(session.getAttribute("tipoElemento")==null){%>
+       		<option value="" disabled selected>Seleccione una Categoría</option>
+       	<%} else { %>
+       		<option value="<%= session.getAttribute("tipoElemento") %>" disabled selected>
+       		<%=session.getAttribute("tipoElemento")%>
+       		</option>
+       	<%}%>
+       
+       	<% 
+       	ArrayList<Categoria> listaCategorias= (ArrayList<Categoria>)request.getAttribute("listaCategorias");
+		for(Categoria c: listaCategorias){
 		%>
         	<option value="<%=c.getId()%>" >
         	    <%=c.getDescripcion()%>
         	</option>
         	<%} %>
         </select>
-        </div>
+      </div>
        </div>
-        <div class="checkbox">
-	    <label>
-	      <input type="checkbox" name="habilitado" <%if((Boolean)session.getAttribute("habilitado")==true){%> checked="true" <% } %>>Habilitado</label>
-	      
-	  </div>
+    
    <button class="btn btn-success waves-effect waves-light " onclick="javascript: submitForm('persona/consulta')">Buscar</button>
         <button class="btn btn-primary waves-effect waves-light " onclick="javascript: submitForm('persona/alta')">Agregar</button>
         <button class="btn btn-warning waves-effect waves-light " onclick="javascript: submitForm('persona/modificacion')">Editar</button>

@@ -119,9 +119,9 @@ public class ABMCClientes extends HttpServlet {
  		Persona per= this.mapearDeForm(request);
  		try {
  			ctrl.add(per);
- 			System.out.println("Nuevo cliente agregado con ï¿½xito.");
+ 			System.out.println("Nuevo cliente agregado con éxito.");
  			PrintWriter out = response.getWriter(); 
- 			out.println("<p>El cliente fue agregado con ï¿½xito. </p>");
+ 			out.println("<p>El cliente fue agregado con éxito. </p>");
  					out.close();
  			
  		} catch (Exception e) {
@@ -137,7 +137,7 @@ public class ABMCClientes extends HttpServlet {
  	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
  		try {
  			ctrl.delete(this.mapearDeForm(request));
- 			System.out.println("El cliente fue eliminado con ï¿½xito.");
+ 			System.out.println("El cliente fue eliminado con éxito.");
  		} catch (Exception e) {
  			e.printStackTrace();
  			System.out.println("No se puedo eliminar el cliente.");
@@ -165,7 +165,7 @@ public class ABMCClientes extends HttpServlet {
  	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
  		try{
  			ctrl.update(this.mapearDeForm(request));
- 			System.out.println("El cliente fue modificado con ï¿½xito.");
+ 			System.out.println("El cliente fue modificado con éxito.");
  		} catch (Exception e) {
  			e.printStackTrace();
  			System.out.println("No se puedo modificar el Cliente.");			

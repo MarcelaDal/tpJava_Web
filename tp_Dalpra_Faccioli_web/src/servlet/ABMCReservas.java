@@ -61,15 +61,6 @@ public class ABMCReservas extends HttpServlet {
 			}
 			break;
 			
-		case "/consulta":
-			try {
-				this.consulta(request,response);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			break;
-
 		default:
 			//this.error(request,response);
 			break;
@@ -107,20 +98,6 @@ public class ABMCReservas extends HttpServlet {
  			
  		}
  	}
- 	
- 	private void consulta(HttpServletRequest request, HttpServletResponse response) throws Exception {
- 		//response.getWriter().append("Consulta, requested action: ").append(request.getPathInfo()).append(" through post");
- 		
- 		CtrlABMCReservas ctrl= new CtrlABMCReservas();
- 		Reserva r= new Reserva();
- 		
- 		HttpSession session = request.getSession();
- 	
- 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/personas?");
- 		//TODO 
- 		
- 		
- 	}
- 	
+
 	
 }

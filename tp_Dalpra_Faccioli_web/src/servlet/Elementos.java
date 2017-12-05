@@ -7,9 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import controlers.CtrlABMCElementos;
-
 
 @WebServlet({"/Elementos", "/elementos", "/Elemento", "/elemento"})
 public class Elementos extends HttpServlet {
@@ -17,7 +15,6 @@ public class Elementos extends HttpServlet {
     
     public Elementos() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	
@@ -25,9 +22,7 @@ public class Elementos extends HttpServlet {
 		try {
 			CtrlABMCElementos ctrl= new CtrlABMCElementos();
 			request.setAttribute("listaTipoElementos", ctrl.getTipoElementos());
-			request.getRequestDispatcher("WEB-INF/menuElementos.jsp").forward(request, response);
-		
-			
+			request.getRequestDispatcher("WEB-INF/menuElementos.jsp").forward(request, response);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

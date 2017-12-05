@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import controlers.CtrlABMCClientes;
 import controlers.CtrlABMCReservas;
@@ -20,7 +21,7 @@ import entity.Reserva;
 public class Start extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-   
+	CtrlABMCClientes ctrl= new CtrlABMCClientes();
     public Start() {
         // TODO Auto-generated constructor stub
     }
@@ -31,9 +32,6 @@ public class Start extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -43,32 +41,33 @@ public class Start extends HttpServlet {
 		try {
 			String user=request.getParameter("user");
 			String pass=request.getParameter("pass");
-					
-			
 			Persona per=new Persona();
 			per.setUsuario(user);
 			per.setContrasenia(pass);
-			
-			CtrlABMCClientes ctrl= new CtrlABMCClientes();
-			CtrlABMCReservas ctrlRes=new CtrlABMCReservas();
-			ArrayList<Reserva> listaRes= new ArrayList<Reserva>();
-				listaRes=	ctrlRes.getAll();
+			Persona pers;
+			try {
+				pers = ctrl.login(per);
+				if(pers!=null){
+					CtrlABMCReservas ctrlRes=new CtrlABMCReservas();
+					ArrayList<Reserva> listaRes= new ArrayList<Reserva>();
+						listaRes=ctrlRes.getAll();				
+					request.setAttribute("listaPersonas", ctrl.getAll());
+					request.setAttribute("listaRes", listaRes);
+					request.getSession().setAttribute("user", pers);
+					request.setAttribute("otraPers", ctrl.getByDni("37563072"));				
+					request.getRequestDispatcher("WEB-INF/home.jsp").forward(request, response);
+				}else{
+					HttpSession session= request.getSession();
+					session.setAttribute("errorLogin", "Error");
+					request.getRequestDispatcher("WEB-INF/errors.jsp").forward(request, response);
+				}
 				
 				
-			Persona pers=ctrl.login(per);
-			
-			request.setAttribute("listaPersonas", ctrl.getAll());
-			request.setAttribute("listaRes", listaRes);
-			
-			request.getSession().setAttribute("user", pers);
+			} catch (Exception e) {
+				throw e;
+			}
 			
 			
-			request.setAttribute("otraPers", ctrl.getByDni("37563072"));
-			
-			
-			
-			
-			request.getRequestDispatcher("WEB-INF/home.jsp").forward(request, response);
 			//response.getWriter().append(user).append(" ").append(pass);
 			
 			

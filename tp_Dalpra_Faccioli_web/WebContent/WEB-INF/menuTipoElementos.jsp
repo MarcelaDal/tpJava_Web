@@ -24,27 +24,35 @@
 <form class="col-md-6" name="myForm" action="" method="post">
       <div class="row">
         <div class="input-field col-md-6">
-          <input disabled id="idInput" name="idInput" type="text" >
-          <label for="id">Id</label>
+        <% if(session.getAttribute("id")!=null){%>
+        	   <input name="idInput" id="idInput" type="text" class="validate" value="<%=session.getAttribute("id")%>" >
+        	<%} else { %>
+        	   <input disabled id="idInput" name="idInput" type="text" >
+        	<%} %>
+          <label for="idInput">Id</label>
         </div>       
       </div>      
       <div class="row">
         <div class="input-field col-md-6">
+         <% if(session.getAttribute("nombreElemento")!=null){%>
           <input name="nameInput" id="nameInput" type="text" class="validate" value="<%= session.getAttribute("nombreElemento") %>">
+        	<%} else { %>
+        	    <input name="nameInput" id="nameInput" type="text" class="validate">
+        	<%} %>
           <label for="nameInput">Nombre</label>
         </div>
       </div>
        <div class="row">
         <div class="input-field col-md-6">
+         <% if(session.getAttribute("cantReservas")!=null){%>
           <input name="cantRes" id="cantRes" type="number" class="validate" value="<%= session.getAttribute("cantReservas") %>">
+        	<%} else { %>
+        	    <input name="cantRes" id="cantRes" type="number" class="validate" ">
+        	<%} %>
           <label for="cantRes">Cantidad máxima de reservas pendientes</label>
         </div>
       </div>
-      <div class="checkbox">
-	     <label>
-	      <input type="checkbox" name="habilitado" <%if((Boolean)session.getAttribute("habilitado")==true){%> checked="true" <% } %>>Habilitado</label>
-	      
-	  </div>
+     
      
       
     <div class="row margin"></div>

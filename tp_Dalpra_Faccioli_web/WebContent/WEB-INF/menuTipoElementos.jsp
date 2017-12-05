@@ -20,12 +20,12 @@
 <link href="style/bootstrap.min.css" rel="stylesheet">
 <link href="style/home.css" rel="stylesheet">
 
-<body>
+<body style="margin-left: 25px;">
 <form class="col-md-6" name="myForm" action="" method="post">
       <div class="row">
         <div class="input-field col-md-6">
-        <% if(session.getAttribute("id")!=null){%>
-        	   <input name="idInput" id="idInput" type="text" class="validate" value="<%=session.getAttribute("id")%>" >
+        <% if(session.getAttribute("idTipoElemento")!=null){%>
+        	   <input name="idInput" id="idInput" type="text" class="validate" value="<%=session.getAttribute("idTipoElemento")%>" >
         	<%} else { %>
         	   <input disabled id="idInput" name="idInput" type="text" >
         	<%} %>
@@ -43,7 +43,6 @@
         </div>
       </div>
        <div class="row">
-        <div class="input-field col-md-6">
          <% if(session.getAttribute("cantReservas")!=null){%>
           <input name="cantRes" id="cantRes" type="number" class="validate" value="<%= session.getAttribute("cantReservas") %>">
         	<%} else { %>
@@ -52,7 +51,12 @@
           <label for="cantRes">Cantidad máxima de reservas pendientes</label>
         </div>
       </div>
-     
+       <div class="checkbox">
+	    <label>
+	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitado")!=null){%> 
+	      checked="true" <% } %>>Habilitado</label>
+	      
+	  </div> 
      
       
     <div class="row margin"></div>

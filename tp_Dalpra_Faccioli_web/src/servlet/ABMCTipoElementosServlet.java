@@ -65,6 +65,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		TipoElementos te= new TipoElementos();
 		te=ctrl.getByNombre(nombre);
 		HttpSession session= request.getSession();
+		session.setAttribute("idTipoElemento", te.getId());
 		session.setAttribute("nombreElemento", te.getNombre());
 		session.setAttribute("cantReservas", te.getCanMaxResPend());
 		session.setAttribute("habilitado", te.isHabilitado());

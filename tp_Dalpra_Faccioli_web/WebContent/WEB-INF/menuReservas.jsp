@@ -21,11 +21,19 @@
 <link href="style/bootstrap.min.css" rel="stylesheet">
 <link href="style/home.css" rel="stylesheet">
 
-<body>
+<body style="margin-left: 25px;">
 	<div class="row">
 	<div class="col-md-2"></div>
     <form class="col-md-6" name="myForm" action="" method="post">
-     
+      <div class="row">
+        <div class="input-field col-md-12">
+        <% if(session.getAttribute("idReserva")!=null){%>
+          <input disabled id="id" type="text" value=" <%=session.getAttribute("idReserva")  %> ">
+          <%} else { %>
+           <input disabled id="idInput" name="idInput" type="text" >
+        	<%} %>
+          <label for="id">Id</label>
+        </div>
  		<div class="row">
 	        <div class="col-md-6">        
 		       	<select class="browser-default" name="tipoElemento">

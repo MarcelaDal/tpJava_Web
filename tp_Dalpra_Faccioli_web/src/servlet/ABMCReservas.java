@@ -71,6 +71,7 @@ public class ABMCReservas extends HttpServlet {
 	private Reserva mapearDeForm(HttpServletRequest request){
  		Reserva r=new Reserva();
  		String idElemento=request.getParameter("elemento");
+ 		String id= request.getParameter("idInput");
  		//TODO
  		return r;
  	}

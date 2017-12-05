@@ -87,16 +87,17 @@ public class ABMCClientes extends HttpServlet {
 	}
 
 	
-	private Persona mapearDeForm(HttpServletRequest request){
+	private Persona mapearDeForm(HttpServletRequest request){		
  		Persona per=new Persona();
  		String nombre=request.getParameter("nameInput");
  		String id= request.getParameter("id");		
  		String apellido= request.getParameter("lastnameInput");
  		String dni= request.getParameter("dniInput");
  		Categoria cat= new Categoria();
- 		cat.setId(Integer.parseInt(request.getParameter("categoria")));
+ 		//cat.setId(Integer.parseInt(request.getParameter("categoria")));
  		String habilitado= request.getParameter("habilitado");
- 		per.setNombre(nombre);
+ 		
+ 		per.setDni(dni);
  		if(id!=null){
  			per.setId(Integer.parseInt(id));
  		}
@@ -105,8 +106,7 @@ public class ABMCClientes extends HttpServlet {
 		}else {
 			per.setHabilitado(true);
 		}
-		
- 		
+ 		per.setNombre(nombre);
 		per.setHabilitado(Boolean.parseBoolean(habilitado));
  		per.setApellido(apellido);
  		per.setDni(dni);
@@ -152,9 +152,10 @@ public class ABMCClientes extends HttpServlet {
  		per= ctrl.getByDni(dni);
  		HttpSession session = request.getSession();
  		session.setAttribute("dniPersona", per.getDni());
+ 		session.setAttribute("idPersona", per.getId());
  		session.setAttribute("nombrePersona", per.getNombre());
  		session.setAttribute("apellidoPersona", per.getApellido());
- 		session.setAttribute("categoriaPersona", per.getCategoria());
+ 		session.setAttribute("categoria", per.getCategoria());
  		session.setAttribute("habilitado", per.isHabilitado());
  		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/personas?");
  		//TODO 

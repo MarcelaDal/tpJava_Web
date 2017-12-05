@@ -63,7 +63,7 @@ import entity.TipoElementos;
  		e=ctrl.getByNombre(nombre);
 		HttpSession session= request.getSession();
 		session.setAttribute("nombreElemento", e.getNombre());
-		session.setAttribute("id", e.getId());
+		session.setAttribute("idElemento", e.getId());
 		session.setAttribute("tipoElemento", e.getTipo().getNombre());
 		session.setAttribute("habilitado", e.isHabilitado());
 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/elementos?");

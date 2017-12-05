@@ -27,13 +27,17 @@
 
 <link href="style/bootstrap.min.css" rel="stylesheet">
 <link href="style/home.css" rel="stylesheet">
-<body>
+<body style="margin-left: 25px;">
 	<div class="row">
 	<div class="col-md-2"></div>
     <form class="col-md-6" name="myForm" action="" method="post">
       <div class="row">
         <div class="input-field col-md-12">
-          <input disabled id="id" type="text" >
+        <% if(session.getAttribute("idPersona")!=null){%>
+          <input disabled id="idInput" name="idInput" type="text" value="<%=session.getAttribute("idPersona")%> ">
+          <%} else { %>
+           <input disabled id="idInput" name="idInput" type="text" >
+        	<%} %>
           <label for="id">Id</label>
         </div>
        
@@ -69,13 +73,13 @@
         </div>
         </div>
         <div class="row">
-        <div class="col-md-6">        
+        <div class="col-md-6">            	
        	<select class="browser-default" name="categoria">
-       	<% if(session.getAttribute("tipoElemento")==null){%>
+       	<% if(session.getAttribute("categoria")==null){%>
        		<option value="" disabled selected>Seleccione una Categoría</option>
        	<%} else { %>
-       		<option value="<%= session.getAttribute("tipoElemento") %>" disabled selected>
-       		<%=session.getAttribute("tipoElemento")%>
+       		<option value="<%= session.getAttribute("categoria") %>" disabled selected>
+       		<%=session.getAttribute("categoria")%>
        		</option>
        	<%}%>
        
@@ -90,7 +94,13 @@
         </select>
       </div>
        </div>
-    
+     <div class="checkbox">
+	    <label>
+	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitado")!=null){%> 
+	      checked="true" <% } %>>Habilitado</label>
+	      
+	  </div> 
+     
    <button class="btn btn-success waves-effect waves-light " onclick="javascript: submitForm('persona/consulta')">Buscar</button>
         <button class="btn btn-primary waves-effect waves-light " onclick="javascript: submitForm('persona/alta')">Agregar</button>
         <button class="btn btn-warning waves-effect waves-light " onclick="javascript: submitForm('persona/modificacion')">Editar</button>

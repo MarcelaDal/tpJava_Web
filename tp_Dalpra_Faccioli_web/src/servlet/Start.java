@@ -58,7 +58,7 @@ public class Start extends HttpServlet {
 					request.getRequestDispatcher("WEB-INF/home.jsp").forward(request, response);
 				}else{
 					HttpSession session= request.getSession();
-					session.setAttribute("errorLogin", "Error");
+					session.setAttribute("error", "errorLogin");
 					request.getRequestDispatcher("WEB-INF/errors.jsp").forward(request, response);
 				}
 				

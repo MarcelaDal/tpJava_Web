@@ -57,7 +57,6 @@ import entity.TipoElementos;
  	}
  	
  	private void consulta(HttpServletRequest request, HttpServletResponse response) throws Exception {
- 		//response.getWriter().append("Consulta, requested action: ").append(request.getPathInfo()).append(" through post");
  		String nombre=request.getParameter("nameInput");
  		Elemento e= new Elemento();
  		e=ctrl.getByNombre(nombre);
@@ -65,16 +64,18 @@ import entity.TipoElementos;
 		session.setAttribute("nombreElemento", e.getNombre());
 		session.setAttribute("idElemento", e.getId());
 		session.setAttribute("tipoElemento", e.getTipo().getNombre());
-		session.setAttribute("habilitado", e.isHabilitado());
+		session.setAttribute("habilitadoElemento", e.isHabilitado());
 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/elementos?");
  	}
  
  	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+ 		HttpSession session= request.getSession();
  		try{
  			ctrl.update(this.mapearDeForm(request));
- 			System.out.println("El elemento fue modificado con éxito.");
+ 			//session.setAttribute("success", "updateElemento");
  		} catch (Exception e) {
- 			e.printStackTrace();
+ 			e.printStackTrace(); 			
+ 			//session.setAttribute("error", "updateElemento");
  			System.out.println("No se puedo modificar el Elemento.");			
  		}
  		

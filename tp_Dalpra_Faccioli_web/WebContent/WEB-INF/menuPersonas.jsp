@@ -75,11 +75,11 @@
         <div class="row">
         <div class="col-md-6">            	
        	<select class="browser-default" name="categoria">
-       	<% if(session.getAttribute("categoria")==null){%>
+       	<% if(session.getAttribute("categoriaPersona")==null){%>
        		<option value="" disabled selected>Seleccione una Categoría</option>
        	<%} else { %>
-       		<option value="<%= session.getAttribute("categoria") %>" disabled selected>
-       		<%=session.getAttribute("categoria")%>
+       		<option value="<%= (Categoria)session.getAttribute("categoriaPersona") %>" disabled selected>
+       		<%=session.getAttribute("categoriaPersona")%>
        		</option>
        	<%}%>
        
@@ -96,7 +96,7 @@
        </div>
      <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitado")!=null){%> 
+	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitadoPersona")!=null && Boolean.parseBoolean(session.getAttribute("habilitadoPersona").toString())==true){%> 
 	      checked="true" <% } %>>Habilitado</label>
 	      
 	  </div> 

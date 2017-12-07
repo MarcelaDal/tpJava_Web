@@ -25,7 +25,7 @@
       <div class="row">
         <div class="input-field col-md-6">
         <% if(session.getAttribute("idTipoElemento")!=null){%>
-        	   <input name="idInput" id="idInput" type="text" class="validate" value="<%=session.getAttribute("idTipoElemento")%>" >
+        	   <input disabled name="idInput" id="idInput" type="text" class="validate" value="<%=session.getAttribute("idTipoElemento")%>" >
         	<%} else { %>
         	   <input disabled id="idInput" name="idInput" type="text" >
         	<%} %>
@@ -34,8 +34,8 @@
       </div>      
       <div class="row">
         <div class="input-field col-md-6">
-         <% if(session.getAttribute("nombreElemento")!=null){%>
-          <input name="nameInput" id="nameInput" type="text" class="validate" value="<%= session.getAttribute("nombreElemento") %>">
+         <% if(session.getAttribute("nombreTipoElemento")!=null){%>
+          <input name="nameInput" id="nameInput" type="text" class="validate" value="<%= session.getAttribute("nombreTipoElemento") %>">
         	<%} else { %>
         	    <input name="nameInput" id="nameInput" type="text" class="validate">
         	<%} %>
@@ -53,7 +53,7 @@
       </div>
        <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitado")!=null){%> 
+	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitadoTipoElemento")!=null && Boolean.parseBoolean(session.getAttribute("habilitadoTipoElemento").toString())==true){%> 
 	      checked="true" <% } %>>Habilitado</label>
 	      
 	  </div> 
@@ -65,7 +65,27 @@
         <button class="btn btn-warning waves-effect waves-light " onclick="javascript: submitForm('tipoElemento/modificacion')">Editar</button>
         <button class="btn btn-danger waves-effect waves-light " onclick="javascript: submitForm('tipoElemento/baja')">Eliminar</button>
     </form>
-    
+     <% String error= (String)session.getAttribute("error");
+            if(error=="updateTipoElemento"){ %> 
+        <script>alert("No se ha podido modificar el tipo de elemento.");</script> 
+        <%} if(error=="deleteTipoElemento") {%>  
+        <script>alert("No se ha podido eliminar el tipo de elemento.");</script> 
+        <%} if(error=="addTipoElemento") {%>       
+         <script>alert("No se ha podido agregar el tipo de elemento.");</script> 
+        <%}if(error=="consultaTipoElemento") {%>       
+         <script>alert("No se ha encontrado un tipo de elemento con ese nombre.");</script> 
+         <%}%>
+         
+    <% String success= (String)session.getAttribute("success");
+            if(success=="updateTipoElemento"){%> 
+      <script>alert("Tipo de elemento modificado con éxito.");</script> 
+      <%} if(success=="deleteTipoElemento") {%>  
+        <script>alert("Tipo de elemento eliminado con éxito.");</script> 
+        <%} if(success=="addTipoElemento") {%>       
+         <script>alert("Tipo de elemento agregado con éxito.");</script> 
+         <%}%>           
+                 
+        
     
  
 </body>

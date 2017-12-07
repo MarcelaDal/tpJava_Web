@@ -13,8 +13,8 @@
 <div class="container">
 	<div class="row">
 		<%
-		String error = (String) session.getAttribute("errorLogin");
-		if (error.equals("Error")){   %>
+		String error = (String) session.getAttribute("error");
+		if (error.equals("errorLogin")){   %>
 		<h2>Credenciales incorrectas.</h2>
 		<% } %>
 	</div>

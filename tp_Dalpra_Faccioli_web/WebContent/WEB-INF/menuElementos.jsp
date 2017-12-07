@@ -3,7 +3,6 @@
     <%@page import="java.util.ArrayList"%>
     <%@page import="entity.Elemento"%>
     <%@page import="entity.TipoElementos"%>
-    <%@page import="controlers.CtrlABMCElementos"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,6 +25,7 @@
 <div class="row">
 <div class="col-md-2"></div>
 <form class="col-md-6" name="myForm" action="" method="post">
+
       <div class="row">
         <div class="input-field col-md-6">
           <% if(session.getAttribute("idElemento")!=null){%>
@@ -56,15 +56,14 @@
        	<% if(session.getAttribute("tipoElemento")==null){%>
        		<option value="" disabled selected>Seleccione un Tipo de Elemento</option>
        	<%} else { %>
-       		<option value="<%= session.getAttribute("tipoElemento") %>" disabled selected>
+       		<option value="<%=session.getAttribute("tipoElemento")%>" disabled selected>
        		<%=session.getAttribute("tipoElemento")%>
        		</option>
        	<%}%>
        
        	<% 
        		ArrayList<TipoElementos> listaTipoElementos= (ArrayList<TipoElementos>)request.getAttribute("listaTipoElementos");
-			for(TipoElementos te: listaTipoElementos){
-       	
+			for(TipoElementos te: listaTipoElementos){       	
 		%>
         	<option value="<%=te.getNombre()%>">
         		<%=te.getNombre()%>
@@ -75,7 +74,7 @@
        </div>
        <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitado")!=null){%> 
+	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitadoElemento")!=null && Boolean.parseBoolean(request.getAttribute("habilitadoElemento").toString())==true){%> 
 	      checked="true" <% } %>>Habilitado</label>
 	      
 	  </div> 
@@ -86,7 +85,12 @@
         <button class="btn btn-danger waves-effect waves-light " onclick="javascript: submitForm('elemento/baja')">Eliminar</button>
     </form>
  </div>   
-    
+    <% String error= (String)session.getAttribute("error");
+            if(error=="updateElemento"){ 
+                %> 
+                <script>alert("No se ha podido modificar el elemento");</script> 
+               <%} %>         
+        
  
 </body>
  <script src="style/ie10-viewport-bug-workaround.js"></script>

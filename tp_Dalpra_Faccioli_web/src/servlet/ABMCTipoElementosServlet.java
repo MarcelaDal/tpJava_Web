@@ -24,30 +24,30 @@ public class ABMCTipoElementosServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+		HttpSession session= request.getSession();
+		session.setAttribute("success", "");
+		session.setAttribute("error", "");
 		switch (request.getPathInfo()) {
 		case "/alta":
-			this.alta(request,response);
+			this.alta(request,response, session);
 			break;
 			
 		case "/baja":
-			this.baja(request,response);
+			this.baja(request,response, session);
 			break;
 			
 		case "/modificacion":
-			this.modificacion(request,response);
+			this.modificacion(request,response,session);
 			break;
 			
 		case "/consulta":
 			try {
-				this.consulta(request,response);
+				this.consulta(request,response, session);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -59,65 +59,69 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		}
 	}
 	
-	private void consulta(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//response.getWriter().append("Consulta, requested action: ").append(request.getPathInfo()).append(" through post");
+	private void consulta(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {		
 		String nombre=request.getParameter("nameInput");
-		TipoElementos te= new TipoElementos();
-		te=ctrl.getByNombre(nombre);
-		HttpSession session= request.getSession();
-		session.setAttribute("idTipoElemento", te.getId());
-		session.setAttribute("nombreElemento", te.getNombre());
-		session.setAttribute("cantReservas", te.getCanMaxResPend());
-		session.setAttribute("habilitado", te.isHabilitado());
+		try{
+			TipoElementos te= new TipoElementos();
+			te=ctrl.getByNombre(nombre);
+			session.setAttribute("idTipoElemento", te.getId());
+			session.setAttribute("nombreTipoElemento", te.getNombre());
+			session.setAttribute("cantReservas", te.getCanMaxResPend());
+			session.setAttribute("habilitadoTipoElemento", te.isHabilitado());
+		}catch (Exception e) {
+			session.setAttribute("error", "consultaTipoElemento");
+		}		
 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 		
 		
 	}
 
-	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void modificacion(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		try{
 			ctrl.update(this.mapearDeForm(request));
-			System.out.println("El tipo de elemento fue modificado con �xito.");
+			session.setAttribute("success", "updateTipoElemento");
+			this.consulta(request, response, session);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("No se puedo modificar el tipo de elemento.");			
+			session.setAttribute("error", "updateTipoElemento");		
 		}
+		//response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 		
 	}
 
-	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void baja(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		try {
-			ctrl.delete(this.mapearDeForm(request));
-			System.out.println("El tipo de elemento fue eliminado con exito.");
+			ctrl.delete(this.mapearDeForm(request));			
+			session.setAttribute("success", "deleteTipoElemento");
+			this.consulta(request, response, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("No se puedo eliminar el tipo de Elemento.");
+			session.setAttribute("error", "deleteTipoElemento");	
 		}
+		//response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 	}
 
-	private void alta(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void alta(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		TipoElementos te= this.mapearDeForm(request);
 		try {
-			ctrl.add(te);
-			System.out.println("Nuevo Tipo de Elemento agregado con exito.");
-			PrintWriter out = response.getWriter(); 
- 			out.println("<p>El elemento fue agregado con exito. </p>");
+			ctrl.add(te);			
+			session.setAttribute("success", "addTipoElemento");
+			this.consulta(request, response, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error al agregar el Tipo de Elemento.");
-			PrintWriter out = response.getWriter(); 
- 			out.println("<p>Error al agregar el Tipo de Elemento. </p>");
+			session.setAttribute("error", "addTipoElemento");	
 		}
-		
+		//response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 	}
 
+	
 	private TipoElementos mapearDeForm(HttpServletRequest request){
 		TipoElementos te=new TipoElementos();
 		String nombre=request.getParameter("nameInput");
 		String id= request.getParameter("idInput");		
 		String canMaxResPend= request.getParameter("cantRes");
 		String habilitado= request.getParameter("habilitado");
-		//TODO que el habilitado lo setee desde ac� no desde la BD
 		te.setNombre(nombre);
 		if(habilitado==null){
 			te.setHabilitado(false);

@@ -34,7 +34,10 @@
 	           cache: false,
 	           success: function (dato) {
 					$("#elemento").empty();
-					$("#elemento").append('<option value="'+dato[0].id+'">'+dato[0].nombre+'</option>')
+					$.each(dato,function(index,item){
+						$("#elemento").append('<option value="'+item.id+'">'+item.nombre+'</option>');
+					});
+			
 	           },
 	           error: function (dato) {
 

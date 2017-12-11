@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import controlers.CtrlABMCElementos;
 import controlers.CtrlABMCReservas;
+import entity.Elemento;
 import entity.Reserva;
 
 /**
@@ -70,9 +72,28 @@ public class ABMCReservas extends HttpServlet {
 	
 	private Reserva mapearDeForm(HttpServletRequest request){
  		Reserva r=new Reserva();
- 		String idElemento=request.getParameter("elemento");
+ 		Elemento e= new Elemento();
+ 		CtrlABMCElementos ctrlE= new CtrlABMCElementos();
+ 		String nombreElemento=request.getParameter("elemento");
  		String id= request.getParameter("idInput");
- 		//TODO
+ 		String detalle= request.getParameter("detail");
+ 		String itTipoElemento= request.getParameter("tipoElemento");
+ 		
+ 		try {
+			e= ctrlE.getByNombre(nombreElemento);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+ 		
+ 		if(id !=null){
+ 			r.setId(Integer.parseInt(id));
+ 		}
+ 		r.setElemento(e);
+ 		r.setDetalle(detalle);
+ 		
+
+ 		//TODO*/
  		return r;
  	}
 	

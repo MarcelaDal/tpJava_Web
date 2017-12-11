@@ -3,6 +3,7 @@ package controlers;
 import java.util.ArrayList;
 
 import data.DataTipoElementos;
+import entity.Elemento;
 import entity.TipoElementos;
 
 public class CtrlABMCTipoElementos {
@@ -37,6 +38,16 @@ public class CtrlABMCTipoElementos {
 		TipoElementos te=new TipoElementos();
 		te.setNombre(nombre);
 		return getByNombre(te);
+	}
+	
+	public ArrayList<Elemento> getElementos(int te) throws Exception{
+		ArrayList<Elemento> elementos= new ArrayList<Elemento>();
+		elementos= this.dataTipoE.getElementosTipo(te);
+		return elementos;
+		
+		
+		
+		
 	}
 	
 }

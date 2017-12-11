@@ -65,4 +65,5 @@ public class CtrlABMCElementos implements Serializable{
 	public ArrayList<TipoElementos> getTipoElementos() throws Exception{
 		return dataTipoEle.getAll();
 	}
+	
 }

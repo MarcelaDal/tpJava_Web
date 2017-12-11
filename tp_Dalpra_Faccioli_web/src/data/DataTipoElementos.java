@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import entity.Elemento;
 import entity.TipoElementos;
 import util.AppDataException;
 
@@ -162,6 +163,41 @@ public class DataTipoElementos {
 			}
 		}
 		return ele;
+	}
+	
+	
+	public ArrayList<Elemento> getElementosTipo(int te) throws Exception{
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		ArrayList<Elemento> elementos= new ArrayList<Elemento>();
+		try {
+			stmt=FactoryConexion.getInstancia().getConn()
+					.prepareStatement(
+					"select * from elementos where elementos.id_tipo_elemento=?"
+					);
+			stmt.setInt(1, te);
+			rs=stmt.executeQuery();
+			while(rs!=null && rs.next()){
+				Elemento ele= new Elemento();
+				ele.setId(rs.getInt("id"));
+				ele.setNombre(rs.getString("nombre"));
+				ele.setHabilitado(rs.getBoolean("habilitado"));
+				elementos.add(ele);
+				
+			}
+			
+		} catch (SQLException | AppDataException e) {
+			throw e;
+		}
+		try {
+			
+			if(stmt!=null)stmt.close();
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return elementos;
 	}
 	
 }

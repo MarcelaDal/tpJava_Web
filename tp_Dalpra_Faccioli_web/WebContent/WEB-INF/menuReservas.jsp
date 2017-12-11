@@ -16,6 +16,33 @@
     		//document.getElementById("myFrom").submit();
         }
     </script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous">
+ </script>
+ 
+ <script>
+ $(document).ready(function(){
+	 $("#tipoElemento").change(function(){
+		 var tipo=$("#tipoElemento").val();
+		 $.ajax({
+	           url: 'ComboElementos',
+	           data: { tipoElemento: tipo },
+	           type: "post",
+	           dataType: "json",
+	           cache: false,
+	           success: function (dato) {
+					$("#elemento").empty();
+					$("#elemento").append('<option value="'+dato[0].id+'">'+dato[0].nombre+'</option>')
+	           },
+	           error: function (dato) {
+
+	           }
+	       });
+	 })
+ })
+ </script>
 </head>
 <link href="style/mdb.min.css" rel="stylesheet">
 <link href="style/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +63,7 @@
         </div>
  		<div class="row">
 	        <div class="col-md-6">        
-		       	<select class="browser-default" name="tipoElemento">
+		       	<select class="browser-default" name="tipoElemento"  id="tipoElemento">
 			       	<option value="" disabled selected>Seleccione un tipo de elemento</option>
 			       	<%
 						ArrayList<TipoElementos> tipoElementos= (ArrayList<TipoElementos>)request.getAttribute("tipoElementos");
@@ -46,22 +73,18 @@
 			        		<%=te.getNombre()%>
 			        	</option>
 			        	<%} %>
-		        </select>
+			       </select>
 	        </div>
        </div>
        
        <div class="row" style="margin-top:16px;">
-	        <div class="col-md-6">        
-		       	<select class="browser-default" name="elemento">
+	        <div class="col-md-6">    
+
+		       	<select class="browser-default" name="elemento" id="elemento"   >
 			       	<option value="" disabled selected>Seleccione un elemento</option>
-			       	<%
-						ArrayList<Elemento> elementos= (ArrayList<Elemento>)request.getAttribute("elementos");
-						for(Elemento e: elementos){
-					%>
-			        	<option value="<%=e.getId()%>" >
-			        		<%=e.getNombre()%>
-			        	</option>
-			        	<%} %>
+
+			  
+			        	
 		        </select>
 	        </div>
      

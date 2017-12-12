@@ -33,8 +33,8 @@
     <form class="col-md-6" name="myForm" action="" method="post">
       <div class="row">
         <div class="input-field col-md-12">
-        <% if(session.getAttribute("idPersona")!=null){%>
-          <input disabled id="idInput" name="idInput" type="text" value="<%=session.getAttribute("idPersona")%> ">
+        <% if(((Persona)session.getAttribute("persona"))!=null){%>
+          <input disabled id="idInput" name="idInput" type="text" value="<%=((Persona)session.getAttribute("persona")).getId()%> ">
           <%} else { %>
            <input disabled id="idInput" name="idInput" type="text" >
         	<%} %>
@@ -44,8 +44,8 @@
       </div>
       <div class="row">
         <div class="input-field col-md-12">
-        <% if(session.getAttribute("dniPersona")!=null){%>
-          <input id="dniInput" name="dniInput" value="<%= session.getAttribute("dniPersona") %>" type="number" class="validate">
+        <% if(((Persona)session.getAttribute("persona"))!=null){%>
+          <input id="dniInput" name="dniInput" value="<%=((Persona)session.getAttribute("persona")).getDni() %>" type="number" class="validate">
         	<%} else { %>
         	   <input id="dniInput" name="dniInput" type="number" class="validate">        	
         	<%} %>
@@ -54,8 +54,8 @@
       </div>
       <div class="row">
         <div class="input-field col-md-12">
-        <% if(session.getAttribute("nombrePersona")!=null){%>
-          <input id="nameInput"  name="nameInput" value="<%= session.getAttribute("nombrePersona") %>" type="text" class="validate">
+        <% if(((Persona)session.getAttribute("persona"))!=null){%>
+          <input id="nameInput"  name="nameInput" value="<%= ((Persona)session.getAttribute("persona")).getNombre() %>" type="text" class="validate">
         	<%} else { %>
         	    <input name="nameInput" id="nameInput" type="text" class="validate">
         	<%} %>
@@ -64,8 +64,8 @@
       </div>
       <div class="row">
         <div class="input-field col-md-12">
-        <% if(session.getAttribute("apellidoPersona")!=null){%>
-          <input id="lastnameInput" name="lastnameInput" value="<%= session.getAttribute("apellidoPersona") %>"  type="text" class="validate">
+        <% if(((Persona)session.getAttribute("persona"))!=null){%>
+          <input id="lastnameInput" name="lastnameInput" value="<%= ((Persona)session.getAttribute("persona")).getApellido() %>"  type="text" class="validate">
         	<%} else { %>
         	    <input name="lastnameInput" id="lastnameInput" type="text" class="validate">
         	<%} %>
@@ -75,11 +75,11 @@
         <div class="row">
         <div class="col-md-6">            	
        	<select class="browser-default" name="categoria">
-       	<% if(session.getAttribute("categoriaPersona")==null){%>
+       	<% if(((Persona)session.getAttribute("persona"))==null){%>
        		<option value="" disabled selected>Seleccione una Categoría</option>
        	<%} else { %>
-       		<option value="<%= (Categoria)session.getAttribute("categoriaPersona") %>" disabled selected>
-       		<%=session.getAttribute("categoriaPersona")%>
+       		<option  selected>
+       		<%=((Persona)session.getAttribute("persona")).getCategoria()%>
        		</option>
        	<%}%>
        
@@ -87,7 +87,7 @@
        	ArrayList<Categoria> listaCategorias= (ArrayList<Categoria>)request.getAttribute("listaCategorias");
 		for(Categoria c: listaCategorias){
 		%>
-        	<option value="<%=c.getId()%>" >
+        	<option value="<%=c %>" >
         	    <%=c.getDescripcion()%>
         	</option>
         	<%} %>
@@ -96,7 +96,7 @@
        </div>
      <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitadoPersona")!=null && Boolean.parseBoolean(session.getAttribute("habilitadoPersona").toString())==true){%> 
+	      <input type="checkbox" name="habilitado" <%if(((Persona)session.getAttribute("persona"))!=null && ((Persona)session.getAttribute("persona")).isHabilitado()==true){%> 
 	      checked="true" <% } %>>Habilitado</label>
 	      
 	  </div> 
@@ -108,6 +108,25 @@
     </form>
   </div>
 	
+	 <% String error= (String)session.getAttribute("error");
+            if(error=="updatePersona"){ %> 
+        <script>alert("No se ha podido modificar la persona.");</script> 
+        <%} if(error=="deletePersona") {%>  
+        <script>alert("No se ha podido dar de baja a la persona.");</script> 
+        <%} if(error=="addPersona") {%>       
+         <script>alert("No se ha podido agregar a la persona.");</script> 
+        <%}if(error=="consultaPersona") {%>       
+         <script>alert("No se ha encontrado una persona con ese dni.");</script> 
+         <%}%>
+         
+    <% String success= (String)session.getAttribute("success");
+            if(success=="updatePersona"){%> 
+      <script>alert("Datos de la persona modificados con éxito.");</script> 
+      <%} if(success=="deletePersona") {%>  
+        <script>alert("Persona dada de baja con éxito.");</script> 
+        <%} if(success=="addPersona") {%>       
+         <script>alert("Persona agregada con éxito.");</script> 
+         <%}%>           
 
 </body>
 <script src="style/jquery.min.js"></script>

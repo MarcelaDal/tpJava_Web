@@ -24,8 +24,8 @@
 <form class="col-md-6" name="myForm" action="" method="post">
       <div class="row">
         <div class="input-field col-md-6">
-        <% if(session.getAttribute("idTipoElemento")!=null){%>
-        	   <input disabled name="idInput" id="idInput" type="text" class="validate" value="<%=session.getAttribute("idTipoElemento")%>" >
+        <% if(((TipoElementos)session.getAttribute("tipoElemento"))!=null){%>
+        	   <input disabled name="idInput" id="idInput" type="text" class="validate" value="<%=((TipoElementos)session.getAttribute("tipoElemento")).getId()%>" >
         	<%} else { %>
         	   <input disabled id="idInput" name="idInput" type="text" >
         	<%} %>
@@ -34,8 +34,8 @@
       </div>      
       <div class="row">
         <div class="input-field col-md-6">
-         <% if(session.getAttribute("nombreTipoElemento")!=null){%>
-          <input name="nameInput" id="nameInput" type="text" class="validate" value="<%= session.getAttribute("nombreTipoElemento") %>">
+         <% if(((TipoElementos)session.getAttribute("tipoElemento"))!=null){%>
+          <input name="nameInput" id="nameInput" type="text" class="validate" value="<%= ((TipoElementos)session.getAttribute("tipoElemento")).getNombre() %>">
         	<%} else { %>
         	    <input name="nameInput" id="nameInput" type="text" class="validate">
         	<%} %>
@@ -43,8 +43,8 @@
         </div>
       </div>
        <div class="row">
-         <% if(session.getAttribute("cantReservas")!=null){%>
-          <input name="cantRes" id="cantRes" type="number" class="validate" value="<%= session.getAttribute("cantReservas") %>">
+         <% if(((TipoElementos)session.getAttribute("tipoElemento"))!=null){%>
+          <input name="cantRes" id="cantRes" type="number" class="validate" value="<%=((TipoElementos)session.getAttribute("tipoElemento")).getCanMaxResPend() %>">
         	<%} else { %>
         	    <input name="cantRes" id="cantRes" type="number" class="validate" ">
         	<%} %>
@@ -53,7 +53,7 @@
       </div>
        <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitadoTipoElemento")!=null && Boolean.parseBoolean(session.getAttribute("habilitadoTipoElemento").toString())==true){%> 
+	      <input type="checkbox" name="habilitado" <%if(((TipoElementos)session.getAttribute("tipoElemento"))!=null && ((TipoElementos)session.getAttribute("tipoElemento")).isHabilitado()==true){%> 
 	      checked="true" <% } %>>Habilitado</label>
 	      
 	  </div> 

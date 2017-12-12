@@ -9,25 +9,10 @@ import entity.TipoElementos;
 import entity.Elemento;
 
 public class CtrlABMCElementos implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private DataElementos dataElementos;
 	private DataTipoElementos dataTipoEle;
-	
-	
-	public DataElementos getDataElementos() {
-		return dataElementos;
-	}
-
-	public void setDataElementos(DataElementos dataElementos) {
-		this.dataElementos = dataElementos;
-	}
-
-	public DataTipoElementos getDataTipoEle() {
-		return dataTipoEle;
-	}
-
-	public void setDataTipoEle(DataTipoElementos dataTipoEle) {
-		this.dataTipoEle = dataTipoEle;
-	}
 	
 	
 	public CtrlABMCElementos(){
@@ -49,6 +34,10 @@ public class CtrlABMCElementos implements Serializable{
 	
 	public Elemento getByNombre(Elemento el) throws Exception{
 		return this.dataElementos.getByNombre(el);
+	}
+	
+	public Elemento getById(Elemento el) throws Exception{
+		return this.dataElementos.getById(el);
 	}
 	
 	public Elemento getByNombre(String nombre)throws Exception{

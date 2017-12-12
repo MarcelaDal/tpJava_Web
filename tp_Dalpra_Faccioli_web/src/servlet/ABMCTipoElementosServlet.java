@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,8 +29,8 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session= request.getSession();
-		session.setAttribute("success", "");
-		session.setAttribute("error", "");
+		session.setAttribute("success", null);
+		session.setAttribute("error", null);
 		switch (request.getPathInfo()) {
 		case "/alta":
 			this.alta(request,response, session);
@@ -64,21 +63,16 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		try{
 			TipoElementos te= new TipoElementos();
 			te=ctrl.getByNombre(nombre);
-			session.setAttribute("idTipoElemento", te.getId());
-			session.setAttribute("nombreTipoElemento", te.getNombre());
-			session.setAttribute("cantReservas", te.getCanMaxResPend());
-			session.setAttribute("habilitadoTipoElemento", te.isHabilitado());
+			session.setAttribute("tipoElemento", te);
 		}catch (Exception e) {
 			session.setAttribute("error", "consultaTipoElemento");
 		}		
-		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
-		
-		
+		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");		
 	}
 
 	private void modificacion(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		try{
-			ctrl.update(this.mapearDeForm(request));
+			ctrl.update(this.mapearDeForm(request, session));
 			session.setAttribute("success", "updateTipoElemento");
 			this.consulta(request, response, session);
 			
@@ -86,24 +80,22 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 			e.printStackTrace();
 			session.setAttribute("error", "updateTipoElemento");		
 		}
-		//response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 		
 	}
 
 	private void baja(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		try {
-			ctrl.delete(this.mapearDeForm(request));			
+			ctrl.delete(this.mapearDeForm(request, session));			
 			session.setAttribute("success", "deleteTipoElemento");
 			this.consulta(request, response, session);
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("error", "deleteTipoElemento");	
 		}
-		//response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 	}
 
 	private void alta(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-		TipoElementos te= this.mapearDeForm(request);
+		TipoElementos te= this.mapearDeForm(request, session);
 		try {
 			ctrl.add(te);			
 			session.setAttribute("success", "addTipoElemento");
@@ -112,28 +104,31 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 			e.printStackTrace();
 			session.setAttribute("error", "addTipoElemento");	
 		}
-		//response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/tipoElementos?");
 	}
 
 	
-	private TipoElementos mapearDeForm(HttpServletRequest request){
+	private TipoElementos mapearDeForm(HttpServletRequest request, HttpSession session){
 		TipoElementos te=new TipoElementos();
 		String nombre=request.getParameter("nameInput");
 		String id= request.getParameter("idInput");		
 		String canMaxResPend= request.getParameter("cantRes");
 		String habilitado= request.getParameter("habilitado");
 		te.setNombre(nombre);
-		if(habilitado==null){
-			te.setHabilitado(false);
-		}else {
-			te.setHabilitado(true);
-		}
-		
 		if(id!=null){
 			te.setId(Integer.parseInt(id));
 		}
+		else{
+			te.setId(((TipoElementos)session.getAttribute("tipoElemento")).getId());
+		}
+		if(habilitado.equals("on")){
+			te.setHabilitado(true);
+		}else {
+			te.setHabilitado(false);
+		}
 		if(canMaxResPend!=null){
 			te.setCanMaxResPend(Integer.parseInt(canMaxResPend));
+		}else{
+			te.setCanMaxResPend(((TipoElementos)session.getAttribute("tipoElemento")).getCanMaxResPend());
 		}
 		return te;
 		

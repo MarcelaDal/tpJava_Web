@@ -1,9 +1,7 @@
 package servlet;
  
  import java.io.IOException;
-import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import controlers.CtrlABMCElementos;
 import controlers.CtrlABMCTipoElementos;
 import entity.Elemento;
-import entity.TipoElementos;
  
  @WebServlet({"/elemento/*", "/elementos/*", "/Elemento/*", "/Elementos/*"})
  public class ABMCElementosServlet extends HttpServlet {
@@ -28,23 +25,25 @@ import entity.TipoElementos;
  	 
  	
  	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
- 		
+ 		HttpSession session= request.getSession();
+		session.setAttribute("success", null);
+		session.setAttribute("error", null);
  		switch (request.getPathInfo()) {
  		case "/alta":
- 			this.alta(request,response);
+ 			this.alta(request,response, session);
  			break;
  			
  		case "/baja":
- 			this.baja(request,response);
+ 			this.baja(request,response, session);
  			break;
  			
  		case "/modificacion":
- 			this.modificacion(request,response);
+ 			this.modificacion(request,response, session);
  			break;
  			
  		case "/consulta":
  			try {
- 				this.consulta(request,response);
+ 				this.consulta(request,response, session);
  			} catch (Exception e) {
  				e.printStackTrace();
  			}
@@ -56,77 +55,76 @@ import entity.TipoElementos;
  		}
  	}
  	
- 	private void consulta(HttpServletRequest request, HttpServletResponse response) throws Exception {
+ 	private void consulta(HttpServletRequest request, HttpServletResponse response,  HttpSession session) throws Exception {
  		String nombre=request.getParameter("nameInput");
- 		Elemento e= new Elemento();
- 		e=ctrl.getByNombre(nombre);
-		HttpSession session= request.getSession();
-		session.setAttribute("nombreElemento", e.getNombre());
-		session.setAttribute("idElemento", e.getId());
-		session.setAttribute("tipoElemento", e.getTipo().getNombre());
-		session.setAttribute("habilitadoElemento", e.isHabilitado());
+ 		try{
+ 			Elemento e= new Elemento();
+ 	 		e=ctrl.getByNombre(nombre);
+ 			session.setAttribute("elemento", e);
+ 		}catch (Exception e) {
+ 			session.setAttribute("error", "consultaElemento");
+		}
 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/elementos?");
  	}
  
- 	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
- 		HttpSession session= request.getSession();
+ 	private void modificacion(HttpServletRequest request, HttpServletResponse response,  HttpSession session) throws IOException {
  		try{
- 			ctrl.update(this.mapearDeForm(request));
- 			//session.setAttribute("success", "updateElemento");
+ 			ctrl.update(this.mapearDeForm(request, session));			
+ 			session.setAttribute("success", "updateElemento");
+ 			this.consulta(request, response, session);
  		} catch (Exception e) {
  			e.printStackTrace(); 			
- 			//session.setAttribute("error", "updateElemento");
- 			System.out.println("No se puedo modificar el Elemento.");			
+ 			session.setAttribute("error", "updateElemento");		
  		}
  		
  	}
  
- 	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
- 		Elemento ele= this.mapearDeForm(request);
+ 	private void baja(HttpServletRequest request, HttpServletResponse response,  HttpSession session) throws IOException {
+ 		Elemento ele= this.mapearDeForm(request, session);
  		try {
  			ctrl.delete(ele);
- 			System.out.println("El elemento fue eliminado con éxito.");
- 			PrintWriter out = response.getWriter(); 
- 			out.println("El elemento fue eliminado con éxito. ");
- 					out.close();
+ 			session.setAttribute("success", "deleteElemento");
+			this.consulta(request, response, session);
  		} catch (Exception e) {
  			e.printStackTrace();
- 			System.out.println("No se puedo eliminar el Elemento.");
+ 			session.setAttribute("error", "deleteElemento");
  		}
 
  	}
  
- 	private void alta(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
- 		Elemento ele= this.mapearDeForm(request);
+ 	private void alta(HttpServletRequest request, HttpServletResponse response,  HttpSession session) throws IOException, ServletException {
+ 		Elemento ele= this.mapearDeForm(request, session);
  		try {
  			ctrl.add(ele);
- 			System.out.println("Nuevo Elemento agregado con éxito.");
- 			//PrintWriter out = response.getWriter(); 
- 			//out.println("<p>El elemento fue agregado con ï¿½xito. </p>");
- 			//		out.close();
- 			
+ 			session.setAttribute("success", "addElemento");
+			this.consulta(request, response, session);
  		} catch (Exception e) {
  			e.printStackTrace();
- 			System.out.println("Error al agregar el Elemento.");
- 			//PrintWriter out = response.getWriter(); 
- 			//out.println("<p>Error al querer agregar elemento </p>");
- 			//		out.close();
+ 			session.setAttribute("error", "addElemento");				
  		}
- 		RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/menuElementos.jsp");
- 		dispatcher.forward(request, response);
  	}
  
- 	private Elemento mapearDeForm(HttpServletRequest request){
+ 	private Elemento mapearDeForm(HttpServletRequest request, HttpSession session){
  		Elemento ele=new Elemento();
  		String nombre=request.getParameter("nameInput");
  		String id= request.getParameter("idInput");		
  		String tipoElemento= request.getParameter("tipoElemento");
  		String habilitado= request.getParameter("habilitado");
- 		
- 		ele.setNombre(nombre);
- 		ele.setHabilitado(Boolean.parseBoolean(habilitado));
+ 		 		
  		if(id!=null){
  			ele.setId(Integer.parseInt(id));
+ 		}else{
+ 			ele.setId(((Elemento)session.getAttribute("elemento")).getId());
+ 		}
+ 		if(nombre!=null){
+ 			ele.setNombre(nombre);
+ 		}else{
+ 			ele.setNombre(((Elemento)session.getAttribute("elemento")).getNombre());
+ 		}
+ 		if(habilitado.equals("on")){
+ 			ele.setHabilitado(true);
+ 		}else{
+ 			ele.setHabilitado(false);
  		}
  		if(tipoElemento!=null){
  			try {
@@ -134,6 +132,8 @@ import entity.TipoElementos;
  			} catch (Exception e) {
  				e.printStackTrace();
  			}
+ 		}else{
+ 			ele.setTipo(((Elemento)session.getAttribute("elemento")).getTipo());
  		}
  		return ele;
  	}

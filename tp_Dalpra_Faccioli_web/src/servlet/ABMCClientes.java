@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,66 +9,50 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import controlers.CtrlABMCClientes;
-import entity.Categoria;
 import entity.Persona;
 
-/**
- * Servlet implementation class ABMCClientes
- */
+
 @WebServlet({"/persona/*", "/personas/*", "/Persona/*", "/Personas/*"})
 public class ABMCClientes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     CtrlABMCClientes ctrl= new CtrlABMCClientes();  
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+   
     public ABMCClientes() {
         super();
-        // TODO Auto-generated constructor stub
-    }		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+		HttpSession session= request.getSession();
+		session.setAttribute("success", null);
+		session.setAttribute("error", null);
 		switch (request.getPathInfo()) {
 		case "/alta":
 			try {
-				this.alta(request,response);
+				this.alta(request,response, session);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}			
 			break;
 			
-		case "/baja":
+		case "/baja":			
 			try {
-				this.baja(request,response);
+				this.baja(request,response, session);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}			
 			break;
 			
 		case "/modificacion":
-			try {
-				this.modificacion(request,response);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.modificacion(request,response, session);			
 			break;
 			
 		case "/consulta":
 			try {
-				this.consulta(request,response);
+				this.consulta(request,response, session);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}			
 			break;
 
 		default:
@@ -80,91 +62,102 @@ public class ABMCClientes extends HttpServlet {
 	}
 
 	
-	private Persona mapearDeForm(HttpServletRequest request){		
+	private void consulta(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+ 		String dni=request.getParameter("dniInput");
+ 		try{
+ 			Persona per= new Persona();
+ 	 		per= ctrl.getByDni(dni);
+ 	 		session.setAttribute("persona", per);
+ 		}catch (Exception e) {
+ 			session.setAttribute("error", "consultaPersona");
+		}
+ 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/personas?");
+
+ 	}
+	
+	private void modificacion(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+ 		try{
+ 			ctrl.update(this.mapearDeForm(request, session));
+ 			session.setAttribute("success", "updatePersona");
+ 			this.consulta(request, response, session);
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 			session.setAttribute("error", "updatePersona");
+ 		}
+ 		
+ 	}
+ 	
+	
+ 	private void alta(HttpServletRequest request, HttpServletResponse response,  HttpSession session) throws Exception {
+ 		Persona per= this.mapearDeForm(request, session);
+ 		try {
+ 			ctrl.add(per);
+ 			session.setAttribute("success", "addPersona");
+			this.consulta(request, response, session);
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 			session.setAttribute("error", "addPersona");	
+ 		}
+ 		
+ 	}
+	
+ 	private void baja(HttpServletRequest request, HttpServletResponse response, HttpSession session ) throws Exception {
+ 		Persona per= this.mapearDeForm(request, session);
+ 		try {
+ 			ctrl.delete(per);
+ 			session.setAttribute("success", "deletePersona");
+			this.consulta(request, response, session);
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 			session.setAttribute("error", "deletePersona");
+ 		}
+ 	}
+ 	
+ 	
+ 	
+
+ 	
+ 	private Persona mapearDeForm(HttpServletRequest request, HttpSession session) throws Exception{		
  		Persona per=new Persona();
  		String nombre=request.getParameter("nameInput");
  		String id= request.getParameter("id");		
  		String apellido= request.getParameter("lastnameInput");
  		String dni= request.getParameter("dniInput");
- 		Categoria cat= new Categoria();
- 		//cat.setId(Integer.parseInt(request.getParameter("categoria")));
  		String habilitado= request.getParameter("habilitado");
+ 		String categoria= request.getParameter("categoria");
  		
- 		per.setDni(dni);
  		if(id!=null){
  			per.setId(Integer.parseInt(id));
  		}
- 		if(habilitado==null){
-			per.setHabilitado(false);
-		}else {
+ 		else{
+ 			per.setId(((Persona)session.getAttribute("persona")).getId());
+ 		}
+ 		if(dni!=null){
+ 			per.setDni(dni);
+ 		}else{
+ 			per.setDni(((Persona)session.getAttribute("persona")).getDni());
+ 		}
+ 		if(nombre!= null){
+ 			per.setNombre(nombre);
+ 		}else{
+ 			per.setNombre(((Persona)session.getAttribute("persona")).getNombre());
+ 		}
+ 		if(apellido!=null){
+ 			per.setApellido(apellido);
+ 		}else{
+ 			per.setApellido(((Persona)session.getAttribute("persona")).getApellido());
+ 		} 		
+ 		if(habilitado.equals("on")){
 			per.setHabilitado(true);
+		}else {
+			per.setHabilitado(false);
 		}
- 		per.setNombre(nombre);
-		per.setHabilitado(Boolean.parseBoolean(habilitado));
- 		per.setApellido(apellido);
- 		per.setDni(dni);
- 		per.setCategoria(cat);
+ 		if(categoria!=null){
+ 			per.setCategoria(ctrl.getCategoriaByNombre(categoria));
+ 		}else{
+ 			per.setCategoria(((Persona)session.getAttribute("persona")).getCategoria());
+ 		}
  			
  		return per;
  	}
-	
- 	private void alta(HttpServletRequest request, HttpServletResponse response) throws IOException {
- 		Persona per= this.mapearDeForm(request);
- 		try {
- 			ctrl.add(per);
- 			System.out.println("Nuevo cliente agregado con éxito.");
- 			PrintWriter out = response.getWriter(); 
- 			out.println("<p>El cliente fue agregado con éxito. </p>");
- 					out.close();
- 			
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 			System.out.println("Error al agregar cliente.");
- 			PrintWriter out = response.getWriter(); 
- 			out.println("<p>Error al agregar cliente </p>");
- 					out.close();
- 		}
- 		
- 	}
-	
- 	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
- 		try {
- 			ctrl.delete(this.mapearDeForm(request));
- 			System.out.println("El cliente fue eliminado con éxito.");
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 			System.out.println("No se puedo eliminar el cliente.");
- 		}
- 	}
- 	
- 	private void consulta(HttpServletRequest request, HttpServletResponse response) throws Exception {
- 		//response.getWriter().append("Consulta, requested action: ").append(request.getPathInfo()).append(" through post");
- 		String dni=request.getParameter("dniInput");
- 		CtrlABMCClientes ctrl= new CtrlABMCClientes();
- 		Persona per= new Persona();
- 		per= ctrl.getByDni(dni);
- 		HttpSession session = request.getSession();
- 		session.setAttribute("dniPersona", per.getDni());
- 		session.setAttribute("idPersona", per.getId());
- 		session.setAttribute("nombrePersona", per.getNombre());
- 		session.setAttribute("apellidoPersona", per.getApellido());
- 		session.setAttribute("categoriaPersona", per.getCategoria());
- 		session.setAttribute("habilitadoPersona", per.isHabilitado());
- 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/personas?");
- 		//TODO 
- 		
- 		
- 	}
- 	
- 	private void modificacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
- 		try{
- 			ctrl.update(this.mapearDeForm(request));
- 			System.out.println("El cliente fue modificado con éxito.");
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 			System.out.println("No se puedo modificar el Cliente.");			
- 		}
- 		
- 	}
-	
 }

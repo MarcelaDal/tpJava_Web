@@ -54,7 +54,10 @@ public class Start extends HttpServlet {
 					request.setAttribute("listaPersonas", ctrl.getAll());
 					request.setAttribute("listaRes", listaRes);
 					request.getSession().setAttribute("user", pers);
-					request.setAttribute("otraPers", ctrl.getByDni("37563072"));				
+					request.getSession().setAttribute("elemento", null);
+					request.getSession().setAttribute("tipoElemento", null);
+					request.getSession().setAttribute("reserva", null);
+					request.getSession().setAttribute("persona", null);
 					request.getRequestDispatcher("WEB-INF/home.jsp").forward(request, response);
 				}else{
 					HttpSession session= request.getSession();
@@ -65,15 +68,7 @@ public class Start extends HttpServlet {
 				
 			} catch (Exception e) {
 				throw e;
-			}
-			
-			
-			//response.getWriter().append(user).append(" ").append(pass);
-			
-			
-			
-			
-			
+			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

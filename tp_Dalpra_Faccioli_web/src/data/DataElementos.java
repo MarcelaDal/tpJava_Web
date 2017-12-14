@@ -77,6 +77,40 @@ public class DataElementos{
 		return el;
 	}
 	
+public Elemento getById(Elemento ele) throws Exception{
+		
+		Elemento el=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select e.nombre, e.id, e.id_tipo_elemento, te.nombre, e.habilitado from elementos e inner join tipos_elementos te on e.id_tipo_elemento=te.id where e.id = ?");
+			stmt.setInt(1, ele.getId());
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+					el=new Elemento();
+					el.setTipo(new TipoElementos());
+					el.setId(rs.getInt("e.id"));
+					el.setNombre(rs.getString("e.nombre"));
+					el.getTipo().setId(rs.getInt("e.id_tipo_elemento"));
+					el.getTipo().setNombre(rs.getString("te.nombre"));
+					el.setHabilitado(rs.getBoolean("e.habilitado"));
+			}
+			
+		} catch (Exception ex) {
+			throw ex;
+		} finally{
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw e;
+			}
+		}
+		return el;
+	}
+	
 	
 	public ArrayList<Elemento> getAll() throws Exception{
 		

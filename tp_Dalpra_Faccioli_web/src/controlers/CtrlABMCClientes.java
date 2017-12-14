@@ -10,7 +10,7 @@ import entity.Persona;
 public class CtrlABMCClientes {
 
 	private DataPersona dataPer;
-	private DataCategoria dataCat;	
+	private DataCategoria dataCat;
 	
 	public CtrlABMCClientes(){
 		dataPer = new DataPersona();
@@ -37,6 +37,12 @@ public class CtrlABMCClientes {
 		Persona p=new Persona();
 		p.setDni(dni);
 		return getByDni(p);
+	}
+	
+	public Categoria getCategoriaByNombre(String nombre) throws Exception{
+		Categoria c= new Categoria();
+		c.setDescripcion(nombre);
+		return dataCat.getByNombre(c);
 	}
 	
 		

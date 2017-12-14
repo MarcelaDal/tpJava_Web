@@ -28,8 +28,8 @@
 
       <div class="row">
         <div class="input-field col-md-6">
-          <% if(session.getAttribute("idElemento")!=null){%>
-          <input disabled id="idInput" name="idInput" type="text" value=" <%=session.getAttribute("idElemento")%> ">
+          <% if(((Elemento)session.getAttribute("elemento"))!=null){%>
+          <input disabled id="idInput" name="idInput" type="text" value=" <%=((Elemento)session.getAttribute("elemento")).getId()%> ">
           <%} else { %>
            <input disabled id="idInput" name="idInput" type="text">
         	<%} %>
@@ -38,8 +38,8 @@
       </div>
       <div class="row">
         <div class="input-field col-md-6">
-        	<% if(session.getAttribute("nombreElemento")!=null){%>
-        	   <input name="nameInput" id="nameInput" type="text" class="validate" value="<%=session.getAttribute("nombreElemento")%>" >
+        	<% if(((Elemento)session.getAttribute("elemento"))!=null){%>
+        	   <input name="nameInput" id="nameInput" type="text" class="validate" value="<%=((Elemento)session.getAttribute("elemento")).getNombre()%>" >
         	
         	<%} else { %>
         	    <input name="nameInput" id="nameInput" type="text" class="validate">
@@ -53,11 +53,11 @@
        <div class="row">
         <div class="col-md-6">        
        	<select class="browser-default" name="tipoElemento">
-       	<% if(session.getAttribute("tipoElemento")==null){%>
+       	<% if(((Elemento)session.getAttribute("elemento"))==null){%>
        		<option value="" disabled selected>Seleccione un Tipo de Elemento</option>
        	<%} else { %>
-       		<option value="<%=session.getAttribute("tipoElemento")%>" disabled selected>
-       		<%=session.getAttribute("tipoElemento")%>
+       		<option value="<%=((Elemento)session.getAttribute("elemento")).getTipo()%>" selected>
+       		<%=((Elemento)session.getAttribute("elemento")).getTipo().getNombre()%>
        		</option>
        	<%}%>
        
@@ -65,8 +65,8 @@
        		ArrayList<TipoElementos> listaTipoElementos= (ArrayList<TipoElementos>)request.getAttribute("listaTipoElementos");
 			for(TipoElementos te: listaTipoElementos){       	
 		%>
-        	<option value="<%=te.getNombre()%>">
-        		<%=te.getNombre()%>
+        	<option value="<%=te%>">
+        		<%=te%>
         	</option>
         	<%}%>
         </select>
@@ -74,7 +74,7 @@
        </div>
        <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado" <%if(session.getAttribute("habilitadoElemento")!=null && Boolean.parseBoolean(request.getAttribute("habilitadoElemento").toString())==true){%> 
+	      <input type="checkbox" name="habilitado" <%if(((Elemento)session.getAttribute("elemento"))!=null &&((Elemento)session.getAttribute("elemento")).isHabilitado()==true){%> 
 	      checked="true" <% } %>>Habilitado</label>
 	      
 	  </div> 
@@ -85,13 +85,25 @@
         <button class="btn btn-danger waves-effect waves-light " onclick="javascript: submitForm('elemento/baja')">Eliminar</button>
     </form>
  </div>   
-    <% String error= (String)session.getAttribute("error");
-            if(error=="updateElemento"){ 
-                %> 
-                <script>alert("No se ha podido modificar el elemento");</script> 
-               <%} %>         
-        
- 
+   <% String error= (String)session.getAttribute("error");
+            if(error=="updateElemento"){ %> 
+        <script>alert("No se ha podido modificar el elemento.");</script> 
+        <%} if(error=="deleteElemento") {%>  
+        <script>alert("No se ha podido eliminar el elemento.");</script> 
+        <%} if(error=="addElemento") {%>       
+         <script>alert("No se ha podido agregar el elemento.");</script> 
+        <%}if(error=="consultaElemento") {%>       
+         <script>alert("No se ha encontrado un elemento con ese nombre.");</script> 
+         <%}%>
+         
+    <% String success= (String)session.getAttribute("success");
+            if(success=="updateElemento"){%> 
+      <script>alert("Elemento modificado con éxito.");</script> 
+      <%} if(success=="deleteElemento") {%>  
+        <script>alert("Elemento eliminado con éxito.");</script> 
+        <%} if(success=="addElemento") {%>       
+         <script>alert("Elemento agregado con éxito.");</script> 
+         <%}%>           
 </body>
  <script src="style/ie10-viewport-bug-workaround.js"></script>
 <script src="style/jquery.min.js"></script>

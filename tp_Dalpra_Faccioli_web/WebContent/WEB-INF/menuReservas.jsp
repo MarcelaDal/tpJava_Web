@@ -10,17 +10,41 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Menu Reservas</title>
+<link href="style/mdb.min.css" rel="stylesheet">
+<link href="style/bootstrap.min.css" rel="stylesheet">
+<link href="style/home.css" rel="stylesheet">
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+
+	<script src="style/mdb.min.js"></script>
+	<script src="style/bootstrap.min.js"></script>
+<script src="style/moment.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous">
+ </script>
+ <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+ 
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+    	beforeShowDay: function(date) {
+            var day = date.getDay();
+            return [(day != 6 && day != 0)];
+        }
+    });
+  } );
+  </script>
 <script type="text/javascript">
     	function submitForm(met) {
     		document.myForm.action=met;
     		//document.getElementById("myFrom").submit();
         }
     </script>
-<script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous">
- </script>
+
  
  <script>
  $(document).ready(function(){
@@ -46,10 +70,11 @@
 	 })
  })
  </script>
+      
+  
+  
 </head>
-<link href="style/mdb.min.css" rel="stylesheet">
-<link href="style/bootstrap.min.css" rel="stylesheet">
-<link href="style/home.css" rel="stylesheet">
+
 
 <body style="margin-left: 25px;">
 	<div class="row">
@@ -91,26 +116,9 @@
 		        </select>
 	        </div>
      
-       <div class="container">
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-        </script>
-    </div>
-</div>
-       
+
+      
+
        
       <div class="row">
         <div class="input-field col-md-12">
@@ -124,15 +132,8 @@
     </form>
   </div>
 	
+<p>Date: <input type="text" id="datepicker"></p>
 
 </body>
-<script src="style/jquery.min.js"></script>
-	<script src="style/mdb.min.js"></script>
-	<script src="style/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="/path/to/bootstrap/js/transition.js"></script>
-<script type="text/javascript" src="/path/to/bootstrap/js/collapse.js"></script>
-<script type="text/javascript" src="/path/to/bootstrap/dist/bootstrap.min.js"></script>
-<script type="text/javascript" src="/path/to/bootstrap-datetimepicker.min.js"></script>
-<script src="style/moment.min.js"></script>
 </html>

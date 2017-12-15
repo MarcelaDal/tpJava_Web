@@ -73,6 +73,7 @@ public class ABMCReservas extends HttpServlet {
  			session.setAttribute("error", "addReserva");
  		
  		}
+ 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/reservas?");
  		
  	}
 	
@@ -97,8 +98,8 @@ public class ABMCReservas extends HttpServlet {
  		CtrlABMCElementos ctrlE= new CtrlABMCElementos();
  		String nombreEle=request.getParameter("elemento");
  		int idElemento= Integer.parseInt(nombreEle);
- 		String id= request.getParameter("idInput");
- 		int idReserva= Integer.parseInt(id);
+ 		//String id= request.getParameter("idInput");
+ 		//int idReserva= Integer.parseInt(id);
  		String detalle= request.getParameter("detail");
  		boolean est= true; 
 
@@ -130,9 +131,9 @@ public class ABMCReservas extends HttpServlet {
 			e1.printStackTrace();
 		}
  		
- 		if(id !=null){
- 			r.setId(idReserva);
- 		}
+ 		//if(id !=null){
+ 			//r.setId(idReserva);
+ 		//}
  		r.setElemento(e);
  		r.setDetalle(detalle);
  		r.setHora(tiempo);

@@ -68,14 +68,24 @@ import entity.Elemento;
  	}
  
  	private void modificacion(HttpServletRequest request, HttpServletResponse response,  HttpSession session) throws IOException {
- 		try{
- 			ctrl.update(this.mapearDeForm(request, session));			
+ 		
+ 		
+ 		Elemento ele= this.mapearDeForm(request, session);
+ 		String idTipo= request.getParameter("tipoElemento");
+ 		
+		//String nombre=request.getParameter("nameInput");
+ 		try{ 
+ 	 		//e.setNombre(request.getParameter("nameInput"));
+ 	 		//e.setTipo(tipo);
+ 			ctrl.update(ele);			
  			session.setAttribute("success", "updateElemento");
  			this.consulta(request, response, session);
  		} catch (Exception e) {
  			e.printStackTrace(); 			
  			session.setAttribute("error", "updateElemento");		
  		}
+ 		
+ 		
  		
  	}
  
@@ -107,12 +117,13 @@ import entity.Elemento;
  	private Elemento mapearDeForm(HttpServletRequest request, HttpSession session){
  		Elemento ele=new Elemento();
  		String nombre=request.getParameter("nameInput");
- 		String id= request.getParameter("idInput");		
+ 		String id= request.getParameter("idEle");
+ 		int idElemento= Integer.parseInt(id.trim());
  		String tipoElemento= request.getParameter("tipoElemento");
- 		String habilitado= request.getParameter("habilitado");
+ 		String habilitado= request.getParameter("habilitadoEle");
  		 		
  		if(id!=null){
- 			ele.setId(Integer.parseInt(id));
+ 			ele.setId(idElemento);
  		}else{
  			ele.setId(((Elemento)session.getAttribute("elemento")).getId());
  		}
@@ -121,11 +132,11 @@ import entity.Elemento;
  		}else{
  			ele.setNombre(((Elemento)session.getAttribute("elemento")).getNombre());
  		}
- 		if(habilitado.equals("on")){
+ 		/*if(habilitado.equals("on")){
  			ele.setHabilitado(true);
  		}else{
  			ele.setHabilitado(false);
- 		}
+ 		}*/
  		if(tipoElemento!=null){
  			try {
  				ele.setTipo((ctrlTipoElemento.getByNombre(tipoElemento)));

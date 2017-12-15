@@ -83,7 +83,7 @@
       <div class="row">
         <div class="input-field col-md-12">
         <% if(session.getAttribute("Reserva")!=null){%>
-          <input  id="id" name="idInput" type="text" value=" <%=((Reserva)session.getAttribute("reserva")).getId() %> ">
+          <input disabled id="id" name="idInput" type="text" value=" <%=((Reserva)session.getAttribute("reserva")).getId() %> ">
           <%} else { %>
            <input  id="idInput" name="idInput" type="text" >
         	<%} %>

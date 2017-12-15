@@ -29,9 +29,10 @@
       <div class="row">
         <div class="input-field col-md-6">
           <% if(((Elemento)session.getAttribute("elemento"))!=null){%>
-          <input disabled id="idInput" name="idInput" type="text" value=" <%=((Elemento)session.getAttribute("elemento")).getId()%> ">
+          <input  id="idEle" name="idEle" type="text" value=" <%=((Elemento)session.getAttribute("elemento")).getId()%> ">
+           
           <%} else { %>
-           <input disabled id="idInput" name="idInput" type="text">
+           <input  id="idEle" name="idEle" type="text">
         	<%} %>
           <label for="id">Id</label>
         </div>
@@ -52,7 +53,7 @@
      
        <div class="row">
         <div class="col-md-6">        
-       	<select class="browser-default" name="tipoElemento">
+       	<select class="browser-default" name="tipoElemento" id="tipoElemento">
        	<% if(((Elemento)session.getAttribute("elemento"))==null){%>
        		<option value="" disabled selected>Seleccione un Tipo de Elemento</option>
        	<%} else { %>
@@ -74,9 +75,9 @@
        </div>
        <div class="checkbox">
 	    <label>
-	      <input type="checkbox" name="habilitado" <%if(((Elemento)session.getAttribute("elemento"))!=null &&((Elemento)session.getAttribute("elemento")).isHabilitado()==true){%> 
+	      <input type="checkbox" name="habilitadoEle" id="habilitadoEle" <%if(((Elemento)session.getAttribute("elemento"))!=null &&((Elemento)session.getAttribute("elemento")).isHabilitado()==true){%> 
 	      checked="true" <% } %>>Habilitado</label>
-	      
+	     
 	  </div> 
     <div class="row margin"></div>
     <button class="btn btn-success waves-effect waves-light " onclick="javascript: submitForm('elemento/consulta')">Buscar</button>

@@ -25,9 +25,9 @@
       <div class="row">
         <div class="input-field col-md-6">
         <% if(((TipoElementos)session.getAttribute("tipoElemento"))!=null){%>
-        	   <input disabled name="idInput" id="idInput" type="text" class="validate" value="<%=((TipoElementos)session.getAttribute("tipoElemento")).getId()%>" >
+        	   <input disabled name="idTipoE" id="idTipoE" type="text" class="validate" value="<%=((TipoElementos)session.getAttribute("tipoElemento")).getId()%>" >
         	<%} else { %>
-        	   <input disabled id="idInput" name="idInput" type="text" >
+        	   <input disabled id="idTipoE" name="idTipoE" type="text" >
         	<%} %>
           <label for="idInput">Id</label>
         </div>       

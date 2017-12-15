@@ -110,7 +110,7 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 	private TipoElementos mapearDeForm(HttpServletRequest request, HttpSession session){
 		TipoElementos te=new TipoElementos();
 		String nombre=request.getParameter("nameInput");
-		String id= request.getParameter("idInput");		
+		String id= request.getParameter("idTipoE");		
 		String canMaxResPend= request.getParameter("cantRes");
 		String habilitado= request.getParameter("habilitado");
 		te.setNombre(nombre);
@@ -120,9 +120,12 @@ public class ABMCTipoElementosServlet extends HttpServlet {
 		else{
 			te.setId(((TipoElementos)session.getAttribute("tipoElemento")).getId());
 		}
-		if(habilitado.equals("on")){
-			te.setHabilitado(true);
-		}else {
+		if(habilitado!=null){
+			if(habilitado.equals("on")){
+				te.setHabilitado(true);
+			}
+		}
+		else {
 			te.setHabilitado(false);
 		}
 		if(canMaxResPend!=null){

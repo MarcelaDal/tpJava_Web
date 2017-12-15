@@ -148,8 +148,9 @@
         <script>alert("No se ha podido eliminar la reserva.");</script> 
         <%} if(error=="addReserva") {%>       
          <script>alert("No se ha podido agregar la reserva.");</script> 
-       <% } %>
-         
+       <% } if(error=="reserva Superpuesta"){ %>
+          <script>alert("Reserva Superpuesta, cambie la fecha y hora");</script> 
+          <% } %>
     <% String success= (String)session.getAttribute("success");
        if(success=="deleteReserva") {%>  
         <script>alert("Reserva eliminada con éxito.");</script> 

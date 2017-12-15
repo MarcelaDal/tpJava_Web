@@ -65,8 +65,13 @@ public class ABMCReservas extends HttpServlet {
  		 CtrlABMCReservas ctrl= new CtrlABMCReservas();  
  		Reserva r= this.mapearDeForm(request, session);
  		try {
- 			ctrl.add(r);
- 			session.setAttribute("success", "addReserva");
+ 			if(ctrl.isDateTimeAvailable(r)){
+ 				ctrl.add(r);
+ 	 			session.setAttribute("success", "addReserva");	
+ 			}
+ 			else{
+ 				session.setAttribute("error", "reserva Superpuesta");
+ 			}
  			
  		} catch (Exception e) {
  			e.printStackTrace();

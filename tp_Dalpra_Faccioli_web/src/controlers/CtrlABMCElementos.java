@@ -36,7 +36,9 @@ public class CtrlABMCElementos implements Serializable{
 		return this.dataElementos.getByNombre(el);
 	}
 	
-	public Elemento getById(Elemento el) throws Exception{
+	public Elemento getById(int id) throws Exception{
+		Elemento el= new Elemento(); 
+		el.setId(id);
 		return this.dataElementos.getById(el);
 	}
 	

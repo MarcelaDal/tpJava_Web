@@ -2,6 +2,12 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -74,13 +80,38 @@ public class ABMCReservas extends HttpServlet {
  		Reserva r=new Reserva();
  		Elemento e= new Elemento();
  		CtrlABMCElementos ctrlE= new CtrlABMCElementos();
- 		String nombreElemento=request.getParameter("elemento");
+ 		String nombreEle=request.getParameter("elemento");
+ 		int idElemento= Integer.parseInt(nombreEle);
  		String id= request.getParameter("idInput");
  		String detalle= request.getParameter("detail");
  		String itTipoElemento= request.getParameter("tipoElemento");
+ 		boolean est= true; 
+
+ 		//java.sql.Date date = new java.sql.Date(dateString);
+ 		String dateInString = request.getParameter("datepicker");
+ 		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+ 		java.util.Date utilDate = null;
+		try {
+			utilDate = format.parse(dateInString);
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+       
+
+ 		String hora= request.getParameter("hora");
+ 		SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
+ 		Date horario = null;
+		try {
+			horario = sdf.parse(hora);
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+ 		Time tiempo= new Time(horario.getTime());
  		
  		try {
-			e= ctrlE.getByNombre(nombreElemento);
+			e= ctrlE.getById(idElemento);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -91,6 +122,10 @@ public class ABMCReservas extends HttpServlet {
  		}
  		r.setElemento(e);
  		r.setDetalle(detalle);
+ 		r.setHora(tiempo);
+ 		r.setFecha(utilDate);
+ 		r.setEstado(est);
+ 		
  		
 
  		//TODO*/
@@ -98,6 +133,7 @@ public class ABMCReservas extends HttpServlet {
  	}
 	
  	private void alta(HttpServletRequest request, HttpServletResponse response) throws IOException {
+ 		 CtrlABMCReservas ctrl= new CtrlABMCReservas();  
  		Reserva r= this.mapearDeForm(request);
  		try {
  			ctrl.add(r);

@@ -38,6 +38,11 @@
     });
   } );
   </script>
+     <script type="text/javascript">
+       $(function() {
+               $("#datepicker").datepicker({ dateFormat: "dd-mm-yyyy" }).val()
+       });
+   </script>
 <script type="text/javascript">
     	function submitForm(met) {
     		document.myForm.action=met;
@@ -126,13 +131,35 @@
           <label for="detail">Detalles</label>
         </div>
       </div>
+  <p>Date: <input type="text" id="datepicker" name="datepicker"></p>
+  
+  <div class="col-md-6">        
+		       	<select class="browser-default" id="hora" name="hora">
+			       	<option value="" disabled selected>Seleccione un horario</option>
+			        	<option value= "008:00:00"> 08:00:00</option >
+			        	<option value= "009:00:00"> 09:00:00</option >
+			        	<option value= "010:00:00"> 10:00:00</option >
+			        	<option value= "011:00:00"> 11:00:00</option >
+			        	<option value= "012:00:00"> 12:00:00</option >
+			        	<option value= "013:00:00"> 13:00:00</option >
+			        	<option value= "014:00:00"> 14:00:00</option >
+			        	<option value= "015:00:00"> 15:00:00</option >
+			        	<option value= "016:00:00"> 16:00:00</option > 
+			        	<option value= "017:00:00"> 17:00:00</option >
+			        	<option value= "018:00:00"> 18:00:00</option >
+			        	<option value= "019:00:00"> 19:00:00</option >
+			        	<option value= "020:00:00"> 20:00:00</option >
+			        	<option value= "021:00:00"> 21:00:00</option >
+			        	<option value= "022:00:00"> 22:00:00</option >
+			       </select>
+	        </div>
   
         <button class="btn btn-primary waves-effect waves-light " onclick="javascript: submitForm('reserva/alta')">Agregar</button>
         <button class="btn btn-danger waves-effect waves-light " onclick="javascript: submitForm('reserva/baja')">Eliminar</button>
     </form>
   </div>
 	
-<p>Date: <input type="text" id="datepicker"></p>
+
 
 </body>
 

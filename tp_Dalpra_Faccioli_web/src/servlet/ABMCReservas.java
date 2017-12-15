@@ -20,40 +20,25 @@ import controlers.CtrlABMCElementos;
 import controlers.CtrlABMCReservas;
 import entity.Elemento;
 import entity.Reserva;
+import entity.Persona;
 
-/**
- * Servlet implementation class ABMCClientes
- */
 @WebServlet({"/reserva/*", "/reservas/*", "/Reserva/*", "/Reservas/*"})
 public class ABMCReservas extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     CtrlABMCReservas ctrl= new CtrlABMCReservas();  
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+   
     public ABMCReservas() {
         super();
-        // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+   
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+		HttpSession session= request.getSession();
+		session.setAttribute("success", null);
+		session.setAttribute("error", null);
 		switch (request.getPathInfo()) {
 		case "/alta":
 			try {
-				this.alta(request,response);
+				this.alta(request,response, session);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -62,7 +47,7 @@ public class ABMCReservas extends HttpServlet {
 			
 		case "/baja":
 			try {
-				this.baja(request,response);
+				this.baja(request,response, session);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -75,16 +60,46 @@ public class ABMCReservas extends HttpServlet {
 		}
 	}
 
+		
+ 	private void alta(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+ 		 CtrlABMCReservas ctrl= new CtrlABMCReservas();  
+ 		Reserva r= this.mapearDeForm(request, session);
+ 		try {
+ 			ctrl.add(r);
+ 			session.setAttribute("success", "addReserva");
+ 			
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 			session.setAttribute("error", "addReserva");
+ 		
+ 		}
+ 		
+ 	}
 	
-	private Reserva mapearDeForm(HttpServletRequest request){
+ 	private void baja(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+ 		String id= request.getParameter("idInput");
+ 		Reserva r= new Reserva();
+ 		r.setId(Integer.parseInt(id));
+ 		try {
+ 			ctrl.delete(r);
+ 			session.setAttribute("success", "deleteReserva");
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 			session.setAttribute("error", "deleteReserva");
+ 		}
+ 		response.sendRedirect("http://localhost:8080/tp_Dalpra_Faccioli_web/reservas?");
+ 	}
+
+
+	private Reserva mapearDeForm(HttpServletRequest request, HttpSession session){		
  		Reserva r=new Reserva();
  		Elemento e= new Elemento();
  		CtrlABMCElementos ctrlE= new CtrlABMCElementos();
  		String nombreEle=request.getParameter("elemento");
  		int idElemento= Integer.parseInt(nombreEle);
  		String id= request.getParameter("idInput");
+ 		int idReserva= Integer.parseInt(id);
  		String detalle= request.getParameter("detail");
- 		String itTipoElemento= request.getParameter("tipoElemento");
  		boolean est= true; 
 
  		//java.sql.Date date = new java.sql.Date(dateString);
@@ -94,21 +109,19 @@ public class ABMCReservas extends HttpServlet {
 		try {
 			utilDate = format.parse(dateInString);
 		} catch (ParseException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
        
-
  		String hora= request.getParameter("hora");
  		SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
  		Date horario = null;
 		try {
 			horario = sdf.parse(hora);
 		} catch (ParseException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
  		Time tiempo= new Time(horario.getTime());
+ 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
  		
  		try {
 			e= ctrlE.getById(idElemento);
@@ -118,44 +131,16 @@ public class ABMCReservas extends HttpServlet {
 		}
  		
  		if(id !=null){
- 			r.setId(Integer.parseInt(id));
+ 			r.setId(idReserva);
  		}
  		r.setElemento(e);
  		r.setDetalle(detalle);
  		r.setHora(tiempo);
- 		r.setFecha(utilDate);
+ 		r.setFecha(sqlDate);
  		r.setEstado(est);
- 		
- 		
-
+ 		r.setPersona(((Persona)session.getAttribute("user")));
  		//TODO*/
  		return r;
  	}
-	
- 	private void alta(HttpServletRequest request, HttpServletResponse response) throws IOException {
- 		 CtrlABMCReservas ctrl= new CtrlABMCReservas();  
- 		Reserva r= this.mapearDeForm(request);
- 		try {
- 			ctrl.add(r);
- 			//TODO
- 			
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 			System.out.println("Error al agregar la Reserva.");
- 		
- 		}
- 		
- 	}
-	
- 	private void baja(HttpServletRequest request, HttpServletResponse response) throws IOException {
- 		try {
- 			ctrl.delete(this.mapearDeForm(request));
- 			System.out.println("La reserva fue eliminada con éxito.");
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 			
- 		}
- 	}
-
 	
 }
